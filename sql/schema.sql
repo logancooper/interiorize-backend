@@ -11,7 +11,7 @@ CREATE TABLE items(
     id serial PRIMARY KEY,
     description text,
     img_src text,
-    price float,
+    price integer,
     brand text,
     color_id integer REFERENCES colors(id)
 );
