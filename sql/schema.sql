@@ -1,6 +1,6 @@
 CREATE TABLE users(
     id serial PRIMARY KEY,
-    auth0_id text,
+    user_sub text,
     first_name text,
     last_name text,
     email varchar(200),
@@ -9,6 +9,7 @@ CREATE TABLE users(
 
 CREATE TABLE items(
     id serial PRIMARY KEY,
+    item_name text,
     description text,
     img_src text,
     price integer,
@@ -57,4 +58,24 @@ CREATE TABLE reviews(
     user_id integer REFERENCES users(id),
     item_id integer REFERENCES items(id),
     rating integer
+);
+
+CREATE TABLE quizzes(
+    id serial PRIMARY KEY,
+    user_id integer REFERENCES users(id),
+    budget integer default 0,
+    color_one_id integer REFERENCES colors(id),
+    color_two_id integer REFERENCES colors(id),
+    color_three_id integer REFERENCES colors(id),
+    category_id integer REFERENCES categories(id)
+);
+
+CREATE TABLE users_tags(
+    user_id integer REFERENCES users(id),
+    tag_id integer REFERENCES tags(id)
+);
+
+CREATE TABLE users_avoid_tags(
+    user_id integer REFERENCES users(id),
+    tag_id integer REFERENCES tags(id)
 );
