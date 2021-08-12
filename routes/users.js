@@ -31,7 +31,7 @@ router.post('/delete', async (req, res) => {
 
 //POST - update existing user
 router.post('/update', async (req, res) => {
-    const response = await JobsModel.update(req.body);
+    const response = await UsersModel.update(req.body);
     res.status(200).send(response);
 });
 
