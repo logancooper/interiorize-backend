@@ -6,8 +6,9 @@ const router = express.Router();
 
 //GET by color palette/tag/category or get all items
 router.get('/', async (req, res) => {
-    if (!!req.body) {
-        const filteredData = await ItemsModel.getBy(req.body);
+    if (!!req.query) {
+        console.log(req.query)
+        const filteredData = await ItemsModel.getBy(category_id);
         if (filteredData.count = 0) {
             res.send(filteredData)
         }
@@ -23,6 +24,6 @@ router.get('/:order_id', async (req, res) => {
     console.log(order_id)
     const orderData = await ItemsModel.getItemsByOrder(order_id);
     res.json(orderData).status(200);
-})
+});
 
 module.exports = router;

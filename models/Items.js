@@ -33,7 +33,7 @@ class ItemsModel {
     };
 
     //Get by tag, category, color. Need to write WHERE statement
-    static async getBy(reqBody) {
+    static async getBy(category_id) {
         try {
             const response = await db.any(`
                 SELECT item_name, description, img_src, price, brand, category_name, color_name, array_agg(tag_description) as tags
@@ -43,7 +43,8 @@ class ItemsModel {
                 INNER JOIN colors ON items.color_id = colors.id
                 INNER JOIN items_tags ON items.id = items_tags.item_id
                 INNER JOIN tags ON tags.id = items_tags.tag_id
-                GROUP BY item_name, description, img_src, price, brand, category_name, color_name; `
+                GROUP BY item_name, description, img_src, price, brand, category_name, color_name
+                WHERE categories.id = ${category_id}; `
             )
             return response;
         } catch (error) {
