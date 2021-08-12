@@ -6,7 +6,7 @@ const router = express.Router();
 
 //GET by color palette/tag or get all items
 
-router.get('/?', async (req, res) => {
+router.get('/', async (req, res) => {
     if (!!req.body) {
         const filteredData = await ItemsModel.getBy(req.body);
         if (filteredData.count = 0) {
