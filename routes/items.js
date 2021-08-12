@@ -18,4 +18,11 @@ router.get('/', async (req, res) => {
     }
 });
 
+router.get('/:order_id', async (req, res) => {
+    const { order_id } = req.params;
+    console.log(order_id)
+    const orderData = await ItemsModel.getItemsByOrder(order_id);
+    res.json(orderData).status(200);
+})
+
 module.exports = router;
