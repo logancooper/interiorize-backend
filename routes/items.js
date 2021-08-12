@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const ItemsModel = require('..models/Items');
+const ItemsModel = require('../models/Items');
 const router = express.Router();
 
 //GET by color palette/tag or get all items
