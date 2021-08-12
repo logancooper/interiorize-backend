@@ -11,7 +11,7 @@ class OrdersModel {
     static async getAll() {
         try {
             const response = await db.any(`
-                SELECT orders.id as order_id, users.id as user_id, created_date, array_agg(item_name) FROM orders
+                SELECT orders.id as order_id, users.id as user_id, created_date, array_agg(item_name) as items FROM orders
                 INNER JOIN users ON orders.user_id = users.id
                 INNER JOIN orders_items ON orders.id = orders_items.order_id
                 INNER JOIN items ON orders_items.item_id = items.id
