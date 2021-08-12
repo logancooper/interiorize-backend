@@ -248,3 +248,18 @@ INSERT INTO items (description, img_src, price, brand, color_id, item_name) VALU
 ('Decorate your home or office with this Texture Eucalyptus Plant in Planter anywhere in your home to create an indoor Oasis. Faux succulents are included, so you never have to worry about watering real plants again! Beauty without the pain of caring for real plants.
 ', 'eucalyptus_plant_in_planter.jpg', 40, 'Canora Grey', 6, 'Texture Eucalyptus Plant in Planter'), ('The modern vibe of this white and grey ceramic ribbed bud vase will definitely be a hit in your modern home. The unique ribbed design of this vase poses a uniqueness, fit for the dream home design you are going for. This vase features vertical triangular patterns running up its height. The grey and white stoneware finish give that matte appeal. Place this on tables or shelves and stir curiosity in your modern living space. This item ships in one carton. Suitable for indoor use only. Table vase with medium-sized rim opening. Farmhouse-themed style.', 'simeon_ceramic_table_vase.jpg', 50, 'Mistana™', 4, 'Simeon White/Gray Ceramic Table Vase'), ('From the Cottage to the Cabin, this Distressed White Lantern is a great accent lamp for any space.
 ', 'palmore_distressed_table_lamp.jpg', 70, 'Breakwater Bay', 4, 'Palmore 23.5'' Distressed White Table Lamp Set (Set of 2)');
+
+INSERT INTO users (user_sub, first_name, last_name, email)
+VALUES ('fake_sub', 'Randy', 'Savage', 'macho@man.com');
+
+INSERT INTO orders (user_id, created_date)
+VALUES (1, '2004-10-19 10:23:54');
+
+INSERT INTO orders (user_id, created_date)
+VALUES (1, '2004-12-10 07:13:44'), 
+       (1, '2005-01-07 12:12:12');
+
+INSERT INTO orders_items (order_id, item_id)
+VALUES (1, 3), (1, 24), (1, 87), 
+       (2,2), (2,31), (2, 58),
+       (3, 1), (3, 5), (3, 76);

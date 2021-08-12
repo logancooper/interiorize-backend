@@ -11,7 +11,11 @@ class OrdersModel {
     static async getAll() {
         try {
             const response = await db.any(`
-                SELECT * FROM orders; `
+                SELECT orders.id as order_id, users.id as user_id, created_date, array_agg(item_name) FROM orders
+                INNER JOIN users ON orders.user_id = users.id
+                INNER JOIN orders_items ON orders.id = orders_items.order_id
+                INNER JOIN items ON orders_items.item_id = items.id
+                GROUP BY orders.id, users.id, created_date; `
             )
             return response;
         } catch (error) {
@@ -24,7 +28,7 @@ class OrdersModel {
     static async getByUserID(user_id) {
         try {
             const response = await db.any(`
-                SELECT * FROM orders
+                SELECT id, created_date FROM orders
                 WHERE user_id = ${user_id}
                 ORDER BY created_date DESC; `
             )

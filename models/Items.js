@@ -16,7 +16,7 @@ class ItemsModel {
     static async getAll() {
         try {
             const response = await db.any(`
-                SELECT item_name, description, img_src, price, brand, category_name, color_name, array_agg(tag_description) as tag_array 
+                SELECT item_name, description, img_src, price, brand, category_name, color_name, array_agg(tag_description) as tags
                 FROM items
                 INNER JOIN item_categories ON items.id = item_categories.item_id
                 INNER JOIN categories ON categories.id = item_categories.category_id
@@ -36,7 +36,7 @@ class ItemsModel {
     static async getBy(reqBody) {
         try {
             const response = await db.any(`
-                SELECT item_name, description, img_src, price, brand, category_name, color_name, array_agg(tag_description) as tag_array 
+                SELECT item_name, description, img_src, price, brand, category_name, color_name, array_agg(tag_description) as tags
                 FROM items
                 INNER JOIN item_categories ON items.id = item_categories.item_id
                 INNER JOIN categories ON categories.id = item_categories.category_id
