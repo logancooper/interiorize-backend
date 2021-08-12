@@ -4,8 +4,7 @@ const express = require('express');
 const ItemsModel = require('../models/Items');
 const router = express.Router();
 
-//GET by color palette/tag or get all items
-
+//GET by color palette/tag/category or get all items
 router.get('/', async (req, res) => {
     if (!!req.body) {
         const filteredData = await ItemsModel.getBy(req.body);
