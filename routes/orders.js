@@ -1,7 +1,7 @@
 'use strict';
 
 const express = require('express');
-const OrdersModel = require('..models/Orders');
+const OrdersModel = require('../models/Orders');
 const router = express.Router();
 
 //GET by userID or get all
