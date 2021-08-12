@@ -1,4 +1,3 @@
-const { use } = require('../routes');
 const db = require('./conn');
 
 class ItemsModel {
