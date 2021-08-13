@@ -188,31 +188,6 @@ VALUES
     ('Wave Single Shower Curtain + Hooks', 'The Boho bouquet single shower curtain features digitally printed, original artwork of hand-painted, detailed flowers. This delightful, multi-colored work of art will brighten up any bathroom while adding a touch of bohemian flair. 100% Polyester waterproof material: The boho floral shower curtains are made of polyester, which is comfy, harmless. And it adopts excellent waterproof technology which waters glides off and resists soaking, dries quickly, keeps your home clean and fresh. HD printing: The bohemian flower bathroom shower curtain adopts HD-Printing technology, no fading after washing, the colorful flower will bring a happy showering for you. Our blossom flower shower curtain, sizes, 72"W x 72"H, so the flower bathroom shower curtain can fit most bathrooms. Easy to hang: The bohemian bathroom curtain has 12 strong hooks that come you hanging simply. The shower curtain with weighted hem keeps perfect drape, does not float easily, does not stick to the body. Give you comfortable showering. Easy to care: Hand wash or machine wash with cold water, easy and convenient, hang to dry, iron at low temperatures, please don''t expose to the sun, do not bleach.
     ', 'wave_shower_curtain.jpg', 35, 'Langley Street®', 5)
 
-
-
-INSERT INTO item_categories
-    (item_id, category_id)
-VALUES
-    (1, 1),
-    (2, 1),
-    (3, 1),
-    (4, 1),
-    (5, 1)
-
-INSERT INTO items_tags
-    (item_id, tag_id)
-VALUES
-    (1, 1),
-    (1, 15),
-    (2, 3),
-    (2, 15),
-    (3, 4),
-    (3, 15),
-    (4, 2),
-    (4, 15),
-    (5, 3),
-    (5, 15)
-
 INSERT INTO items (description, img_src, price, brand, color_id, item_name)
 VALUES 
 ('This Tripod Table Lamp is a contemporary piece that will brighten any office or desk space you place it in. With its wood legs and light gray linen lampshade, its simplistic yet functional design makes it a great piece. It effortlessly complements any office or living space.', 'ariel_19_black_tripod_lamp.jpeg', 48, 'Mercury Row', 3, 'Ariel 19-inch Black Tripod Table Lamp'),
@@ -248,3 +223,171 @@ INSERT INTO items (description, img_src, price, brand, color_id, item_name) VALU
 ('Decorate your home or office with this Texture Eucalyptus Plant in Planter anywhere in your home to create an indoor Oasis. Faux succulents are included, so you never have to worry about watering real plants again! Beauty without the pain of caring for real plants.
 ', 'eucalyptus_plant_in_planter.jpg', 40, 'Canora Grey', 6, 'Texture Eucalyptus Plant in Planter'), ('The modern vibe of this white and grey ceramic ribbed bud vase will definitely be a hit in your modern home. The unique ribbed design of this vase poses a uniqueness, fit for the dream home design you are going for. This vase features vertical triangular patterns running up its height. The grey and white stoneware finish give that matte appeal. Place this on tables or shelves and stir curiosity in your modern living space. This item ships in one carton. Suitable for indoor use only. Table vase with medium-sized rim opening. Farmhouse-themed style.', 'simeon_ceramic_table_vase.jpg', 50, 'Mistana™', 4, 'Simeon White/Gray Ceramic Table Vase'), ('From the Cottage to the Cabin, this Distressed White Lantern is a great accent lamp for any space.
 ', 'palmore_distressed_table_lamp.jpg', 70, 'Breakwater Bay', 4, 'Palmore 23.5'' Distressed White Table Lamp Set (Set of 2)');
+
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (1, 1),
+    (2, 1),
+    (3, 1),
+    (4, 1),
+    (5, 1)
+
+INSERT INTO items_tags
+    (item_id, tag_id)
+VALUES
+    (1, 1),
+    (1, 15),
+    (2, 3),
+    (2, 15),
+    (3, 4),
+    (3, 15),
+    (4, 2),
+    (4, 15),
+    (5, 3),
+    (5, 15)
+
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (7, 1),
+    (8, 1),
+    (9, 1),
+    (10, 1)
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (11, 3),
+    (12, 3),
+    (13, 3),
+    (14, 3),
+    (15, 3),
+    (16, 3),
+    (17, 3),
+    (18, 3)
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (19, 4),
+    (20, 4)
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (21, 1),
+    (22, 1),
+    (23, 1),
+    (24, 1),
+    (25, 1)
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (26, 4),
+    (27, 4),
+    (28, 4),
+    (29, 4),
+    (30, 4),
+    (31, 4),
+    (32, 4),
+    (33, 4),
+    (34, 4),
+    (35, 4),
+    (36, 4),
+    (37, 4),
+    (38, 4),
+    (39, 4),
+    (40, 4),
+    (41, 4),
+    (42, 4)
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (43, 5),
+    (44, 5),
+    (45, 5)
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (46, 2),
+    (47, 2)
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (46, 2),
+    (47, 2),
+    (48, 2),
+    (49, 2),
+    (50, 2)
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (51, 5),
+    (52, 5),
+    (53, 5),
+    (54, 5),
+    (55, 5),
+    (56, 5),
+    (57, 5),
+    (58, 5),
+    (59, 5),
+    (60, 5),
+    (61, 5),
+    (62, 5),
+    (63, 5),
+    (64, 5),
+    (65, 5),
+    (66, 5)
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (67, 2),
+    (68, 2),
+    (69, 2),
+    (70, 2),
+    (71, 2),
+    (72, 2),
+    (73, 2),
+    (74, 2),
+    (75, 2),
+    (76, 2),
+    (77, 2)
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (78, 3),
+    (79, 3),
+    (80, 3),
+    (81, 3),
+    (82, 3),
+    (83, 3),
+    (84, 3),
+    (85, 3),
+    (86, 3),
+    (87, 3)
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (88, 2),
+    (89, 2),
+    (90, 2)
+
+INSERT INTO item_categories
+    (item_id, category_id)
+VALUES
+    (91, 1),
+    (92, 1),
+    (93, 1),
+    (94, 1),
+    (95, 1)
