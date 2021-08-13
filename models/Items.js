@@ -16,14 +16,14 @@ class ItemsModel {
     static async getAll() {
         try {
             const response = await db.any(`
-                SELECT item_name, description, img_src, price, brand, category_name, color_name, array_agg(tag_description) as tags
+                SELECT items.id, item_name, description, img_src, price, brand, category_name, color_name, array_agg(tag_description) as tags
                 FROM items
                 INNER JOIN item_categories ON items.id = item_categories.item_id
                 INNER JOIN categories ON categories.id = item_categories.category_id
                 INNER JOIN colors ON items.color_id = colors.id
                 INNER JOIN items_tags ON items.id = items_tags.item_id
                 INNER JOIN tags ON tags.id = items_tags.tag_id
-                GROUP BY item_name, description, img_src, price, brand, category_name, color_name; `
+                GROUP BY items.id, item_name, description, img_src, price, brand, category_name, color_name; `
             )
             return response;
         } catch (error) {
@@ -33,7 +33,7 @@ class ItemsModel {
     };
 
     //Get by tag, category, color. Need to write WHERE statement
-    static async getBy(category, color) {
+    static async getBy(category) {
         try {
             // if category AND not color and not price , query1
             
@@ -45,7 +45,7 @@ class ItemsModel {
                 INNER JOIN colors ON items.color_id = colors.id
                 INNER JOIN items_tags ON items.id = items_tags.item_id
                 INNER JOIN tags ON tags.id = items_tags.tag_id
-                WHERE categories.id = ${category} AND colors.id = ${color}
+                WHERE categories.id = ${category}
                 GROUP BY item_name, description, img_src, price, brand, category_name, color_name;
             `)
             return response;
@@ -88,7 +88,18 @@ class ItemsModel {
             console.error('ERROR', error)
             return error
         }
-    }
+    };
+
+    // static async createNewOrder(user_id) {
+    //     try {
+    //         const response = await db.any(`
+    //             SELECT item_name, array_agg(tag_id) 
+    //             FROM items
+    //             INNER JOIN items_tags on items.id = items_tags.item_id
+    //             WHERE 
+    //         `)
+    //     }
+    // }
 
 }
 

@@ -23,11 +23,11 @@ class UsersModel {
     };
 
     //
-    static async getUser(user) {
+    static async getUser(user_sub) {
         try {
             const response = await db.any(`
                 SELECT * FROM users
-                WHERE auth0_id = '${user}';`
+                WHERE user_sub = '${user_sub}';`
             )
             return response;
         } catch (error) {

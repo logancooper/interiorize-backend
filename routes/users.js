@@ -3,10 +3,10 @@ const UsersModel = require('../models/Users');
 const router = express.Router();
 
 //GET single user data or all user data
-router.get('/:user?', async (req, res) => {
-    if (!!req.params.user) {
+router.get('/:user_sub?', async (req, res) => {
+    if (!!req.params.user_sub) {
         const { user } = req.params;
-        const singleUser = await UsersModel.getUser(user);
+        const singleUser = await UsersModel.getUser(user_sub);
         if (singleUser.count = 0) {
             res.send(singleUser)
         }

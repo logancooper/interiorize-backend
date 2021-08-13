@@ -5,6 +5,7 @@ const ItemsModel = require('../models/Items');
 const router = express.Router();
 
 //GET array of all items in the database
+//Refactor and add single route to this one
 router.get('/', async (req, res) => {
     const allData = await ItemsModel.getAll();
     res.json(allData).status(200);
