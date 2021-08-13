@@ -27,8 +27,8 @@ router.get('/single/:item_id', async (req, res) => {
 //GET filtered array of matching items
 router.get('/filter/?', async (req, res) => {
     console.log(req.query);
-    const { category } = req.query;
-    const filteredItems = await ItemsModel.getBy(category);
+    const { category, color } = req.query;
+    const filteredItems = await ItemsModel.getBy(category, color);
     res.json(filteredItems).status(200);
 });
 
