@@ -6,9 +6,6 @@ const router = express.Router();
 router.get('/:user_id', async (req, res) => {
     const { user_id } = req.params;
     const quizData = await QuizzesModel.getAllUserQuizData(user_id);
-    if (quizData.count = 0) {
-        res.send(quizData)
-    }
     res.json(quizData).status(200);
 });
 
