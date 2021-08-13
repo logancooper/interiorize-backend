@@ -11,11 +11,13 @@ class QuizzesModel {
         this.category_id = category_id;
     };
 
-    static async getAllUserQuizData(user_sub) {
+    static async getAllUserQuizData(user_id) {
         try {
             const response = await db.one(`
-                SELECT * FROM quizzes
-                WHERE user_sub = '${user_sub}'; `
+                SELECT user_id, budget, json_agg(json_build_array(color_one_id, color_two_id, color_three_id)) as colors, category_name FROM quizzes
+                INNER JOIN categories ON categories.id = quizzes.category_id
+                WHERE user_id = 1
+                GROUP BY user_id, budget, category_name; `
             )
             return response;
         } catch (error) {
