@@ -3,8 +3,8 @@ const QuizzesModel = require('../models/Quizzes');
 const router = express.Router();
 
 //GET quiz data for a user
-router.get('/', async (req, res) => {
-    const { user_sub } = req.body;
+router.get('/:user_sub', async (req, res) => {
+    const { user_sub } = req.params;
     const quizData = await QuizzesModel.getAllUserQuizData(user_sub);
     if (quizData.count = 0) {
         res.send(quizData)
