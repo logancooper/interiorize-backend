@@ -11,7 +11,7 @@ router.get('/:user_id', async (req, res) => {
 
 //POST - add new quiz data
 router.post('/add', async (req, res) => {
-    const response = await QuizzesModel.add(req.body);
+    const response = await QuizzesModel.addQuizData(req.body);
     res.status(200).send(response);
 });
 

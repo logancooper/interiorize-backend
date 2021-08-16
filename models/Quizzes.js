@@ -27,9 +27,10 @@ class QuizzesModel {
     };
 
     static async addQuizData(reqBody) {
+        console.log(reqBody)
         const { user_id, budget, color_one_id, color_two_id, color_three_id, category_id } = reqBody;
         try {
-            const response = await db.one(`
+            const response = await db.any(`
                 INSERT INTO quizzes
                     (user_id, budget, color_one_id, color_two_id, color_three_id, category_id)
                 VALUES
