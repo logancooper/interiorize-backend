@@ -62,7 +62,7 @@ CREATE TABLE reviews(
 
 CREATE TABLE quizzes(
     id serial PRIMARY KEY,
-    user_id integer REFERENCES users(id),
+    user_id integer REFERENCES UNIQUE users(id),
     budget integer default 0,
     color_one_id integer REFERENCES colors(id),
     color_two_id integer REFERENCES colors(id),
