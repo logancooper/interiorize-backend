@@ -90,24 +90,60 @@ class ItemsModel {
         }
     };
 
-    // static async createNewOrder(user_id) {
-    //     try {
-    //         const response = await db.any(`
-    //             SELECT item_name, array_agg(tag_id) 
-    //             FROM items
-    //             INNER JOIN items_tags on items.id = items_tags.item_id
-    //             WHERE 
-    //         `)
-    //     }
-    // }
+    //GET User inventory
+    static async getUserInventory(user_id)
+    {
+        try {
+            const response = await db.any(`
+                SELECT item_name, description, img_src, price, brand, category_name, color_name, array_agg(tag_description) as tags
+                FROM items
+                INNER JOIN item_categories ON items.id = item_categories.item_id
+                INNER JOIN categories ON categories.id = item_categories.category_id
+                INNER JOIN colors ON items.color_id = colors.id
+                INNER JOIN items_tags ON items.id = items_tags.item_id
+                INNER JOIN tags ON tags.id = items_tags.tag_id
+                INNER JOIN users_inventory ON users_inventory.item_id = items.id
+                WHERE users_inventory.user_id = ${user_id}
+                GROUP BY item_name, description, img_src, price, brand, category_name, color_name;
+            `);
+            return response;
+        } catch (error) {
+            console.error('ERROR', error)
+            return error
+        }
+    };
+
+    static async getItemsMatchingQuizData(user_id, budget, color_one_id, color_two_id, color_three_id, category_name)
+    {
+        //GET all items
+        const allItems = getAll();
+        //FILTER BY BUDGET & CATEGORY
+        //GET user inventory
+        const userInventory = getUserInventory(user_id);
+        //FILTER BY INVENTORY
+        //GET avoid tags
+        //FILTER BY AVOID TAGS
+        //FILTER BY COLORS
+        try {
+            const response = await db.any(`
+                SELECT item_name, description, img_src, price, brand, category_name, color_name, array_agg(tag_description) as tags
+                FROM items
+                INNER JOIN item_categories ON items.id = item_categories.item_id
+                INNER JOIN categories ON categories.id = item_categories.category_id
+                INNER JOIN colors ON items.color_id = colors.id
+                INNER JOIN items_tags ON items.id = items_tags.item_id
+                INNER JOIN tags ON tags.id = items_tags.tag_id
+                WHERE items.id = ${item_id}
+                GROUP BY item_name, description, img_src, price, brand, category_name, color_name;
+            `);
+            return response;
+        } catch (error) {
+            console.error('ERROR', error)
+            return error
+        }
+    };
+
 
 }
 
 module.exports = ItemsModel;
-
-
-                // SELECT items.id, items.title, ARRAY_AGG(tags.tag_id)
-                // FROM items
-                // INNER JOIN tags ON (tag.tag_id=items.id)
-                // GROUP BY items.id
-                // HAVING 27 = ANY(ARRAY_AGG(tags.tag_id))
