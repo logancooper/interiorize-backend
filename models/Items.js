@@ -89,25 +89,9 @@ class ItemsModel {
             return error
         }
     };
-
-    // static async createNewOrder(user_id) {
-    //     try {
-    //         const response = await db.any(`
-    //             SELECT item_name, array_agg(tag_id) 
-    //             FROM items
-    //             INNER JOIN items_tags on items.id = items_tags.item_id
-    //             WHERE 
-    //         `)
-    //     }
-    // }
-
 }
 
 module.exports = ItemsModel;
 
 
-                // SELECT items.id, items.title, ARRAY_AGG(tags.tag_id)
-                // FROM items
-                // INNER JOIN tags ON (tag.tag_id=items.id)
-                // GROUP BY items.id
-                // HAVING 27 = ANY(ARRAY_AGG(tags.tag_id))
+                

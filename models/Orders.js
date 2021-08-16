@@ -22,7 +22,7 @@ class OrdersModel {
             console.error('ERROR', error)
             return error
         }
-    }
+    };
 
     // Get all orders for a user and sort by newest
     static async getByUserID(user_id) {
@@ -37,7 +37,50 @@ class OrdersModel {
             console.error('ERROR', error)
             return error
         }
-    }
+    };
+
+    // Create a new order
+    static async createOrder(user_id) {
+        try {
+            const query = `
+                INSERT INTO orders
+                (user_id)
+                VALUES
+                (${user_id})
+                RETURNING id;
+            `
+            const response = await db.one(query);
+            return response;
+        } catch (error) {
+            console.error('ERROR', error)
+            return error
+        }
+    };
+
+    // Add items to order
+    static async addItemsToOrder(order_id, items) {
+        let itemInsert = '';
+        items.forEach(item => {
+            if (itemInsert === '') {
+                itemInsert += `(${order_id}, ${item})`
+            } else {
+                itemInsert += `,(${order_id}, ${item})`
+            }
+        })
+        try {
+            const query = `
+                INSERT INTO orders_items
+                (order_id, item_id)
+                VALUES
+                ${itemInsert}
+            `
+            const response = await db.any(query);
+            return response;
+        } catch (error) {
+            console.error('ERROR', error)
+            return error
+        }
+    };
 }
 
 module.exports = OrdersModel;
