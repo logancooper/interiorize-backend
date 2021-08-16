@@ -9,6 +9,7 @@ class QuizzesModel {
         this.color_two_id = color_two_id;
         this.color_three_id = color_three_id;
         this.category_id = category_id;
+        this.style_id = style_id;
     };
 
     static async getAllUserQuizData(user_id) {
@@ -28,13 +29,13 @@ class QuizzesModel {
 
     static async addQuizData(reqBody) {
         console.log(reqBody)
-        const { user_id, budget, color_one_id, color_two_id, color_three_id, category_id } = reqBody;
+        const { user_id, budget, color_one_id, color_two_id, color_three_id, category_id, style_id } = reqBody;
         try {
             const response = await db.any(`
                 INSERT INTO quizzes
-                    (user_id, budget, color_one_id, color_two_id, color_three_id, category_id)
+                    (user_id, budget, color_one_id, color_two_id, color_three_id, category_id, style_id)
                 VALUES
-                    (${user_id}, ${budget}, ${color_one_id}, ${color_two_id}, ${color_three_id}, ${category_id}); `
+                    (${user_id}, ${budget}, ${color_one_id}, ${color_two_id}, ${color_three_id}, ${category_id}, ${style_id}); `
             )
             return response;
         } catch (error) {
