@@ -38,13 +38,13 @@ class UsersModel {
 
     static async addUser(reqBody) {
         //parse reqBody
-        const { auth0_id, first_name, last_name, email } = reqBody;
+        const { user_sub, first_name, last_name, email } = reqBody;
         try {
             const query = `
             INSERT INTO users
-            (auth0_id, first_name, last_name, email)
+            (user_sub, first_name, last_name, email)
             VALUES
-            ('${auth0_id}', '${first_name}', '${last_name}', '${email}');`;
+            ('${user_sub}', '${first_name}', '${last_name}', '${email}');`;
             const response = await db.one(query);
             return response;
         } catch (error) {
@@ -57,11 +57,11 @@ class UsersModel {
     //     Which things do we want to update?
     // };
 
-    static async deleteUser(user) {
+    static async deleteUser(user_sub) {
         try {
             const response = await db.one(`
             DELETE FROM users
-            WHERE auth0_id = '${user}';`
+            WHERE user_sub = '${user_sub}';`
             );
             return response;
         } catch (error) {

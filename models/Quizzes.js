@@ -16,7 +16,7 @@ class QuizzesModel {
             const response = await db.one(`
                 SELECT user_id, budget, json_agg(json_build_array(color_one_id, color_two_id, color_three_id)) as colors, category_name FROM quizzes
                 INNER JOIN categories ON categories.id = quizzes.category_id
-                WHERE user_id = 1
+                WHERE user_id = ${user_id}
                 GROUP BY user_id, budget, category_name; `
             )
             return response;
@@ -27,13 +27,13 @@ class QuizzesModel {
     };
 
     static async addQuizData(reqBody) {
-        const { user_sub, budget, color_one_id, color_two_id, color_three_id, category_id } = reqBody;
+        const { user_id, budget, color_one_id, color_two_id, color_three_id, category_id } = reqBody;
         try {
             const response = await db.one(`
                 INSERT INTO quizzes
-                    (user_sub, budget, color_one_id, color_two_id, color_three_id, category_id)
+                    (user_id, budget, color_one_id, color_two_id, color_three_id, category_id)
                 VALUES
-                    ('${user_sub}', ${budget}, ${color_one_id}, ${color_two_id}, ${color_three_id}, ${category_id}); `
+                    (${user_id}, ${budget}, ${color_one_id}, ${color_two_id}, ${color_three_id}, ${category_id}); `
             )
             return response;
         } catch (error) {
@@ -43,7 +43,7 @@ class QuizzesModel {
     };
 
     static async updateQuizData(reqBody) {
-        const { user_sub, budget, color_one_id, color_two_id, color_three_id, category_id } = reqBody;
+        const { user_id, budget, color_one_id, color_two_id, color_three_id, category_id } = reqBody;
         try {
             const response = await db.one(`
                 UPDATE quizzes
@@ -52,7 +52,7 @@ class QuizzesModel {
                     color_two_id = ${color_two_id},
                     color_three_id = ${color_three_id},
                     category_id = ${category_id}
-                WHERE user_sub = '${user_sub}'; `
+                WHERE user_id = ${user_id}; `
             )
             return response;
         } catch (error) {
