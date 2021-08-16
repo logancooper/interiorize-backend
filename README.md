@@ -148,3 +148,27 @@ body: {
 }
 
 <b>Updates all quiz data for a user</b>
+
+## ORDERS ENDPOINTS
+
+    GET /orders
+
+<b>Returns an array of all order objects in the database</b>
+
+<ul>
+    <li>order_id: (integer)</li>
+    <li>user_id: (integer)</li>
+    <li>created_data: (timestamp)</li>
+    <li>items: (text[])</li>
+</ul>
+
+    GET /orders/:user_id
+
+<b>Returns an array of all orders associated with the input user_id</b>
+
+<ul>
+    <li>order_id: (integer)</li>
+    <li>user_id: (integer)</li>
+    <li>created_data: (timestamp)</li>
+    <li>items: (text[])</li>
+</ul>
