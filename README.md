@@ -172,3 +172,17 @@ body: {
     <li>created_data: (timestamp)</li>
     <li>items: (text[])</li>
 </ul>
+
+    POST orders/add
+
+body: {
+    user_id: (integer),
+    items: (integer[]) - contains item ids for all items you wish to add to the new order
+}
+
+<ul>
+    <li>Creates a new order with timestamp and order_id</li>
+    <li>Adds all items in the items array to that order</li>
+    <li>Add all items in the items array to user inventory</li>
+    <li>Returns the new order_id</li>
+</ul>
