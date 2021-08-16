@@ -79,3 +79,8 @@ CREATE TABLE users_avoid_tags(
     user_id integer REFERENCES users(id),
     tag_id integer REFERENCES tags(id)
 );
+
+CREATE TABLE users_inventory(
+    user_id integer REFERENCES users(id),
+    item_id integer REFERENCES items(id)
+);

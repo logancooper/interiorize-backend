@@ -69,6 +69,55 @@ class UsersModel {
             return error
         }
     };
+
+    static async getUserAvoidData(user_id) {
+        try {
+            const response = await db.any(`
+                SELECT ARRAY_AGG(tag_id) as avoid_tags FROM users_avoid_tags
+                WHERE user_id = ${user_id};
+            `);
+            return response;
+        } catch (error) {
+            console.error('ERROR', error)
+            return error
+        }
+    };
+
+    static async deleteAvoidData(user_id) {
+        try {
+            const response = await db.any(`
+                DELETE FROM users_avoid_tags
+                WHERE user_id = ${user_id};
+            `)
+        } catch (error) {
+            console.error('ERROR', error)
+            return error
+        }
+    };
+
+    static async addAvoidData(user_id, avoid_tags) {
+        console.log(typeof avoid_tags)
+        let tagInserts = '';
+        avoid_tags.forEach(tag => {
+            if (tagInserts === '') {
+                tagInserts += `(${user_id}, ${tag})`
+            } else {
+                tagInserts += `,(${user_id}, ${tag})`
+            }
+        })
+        try {
+            const query = `
+                INSERT INTO users_avoid_tags
+                    (user_id, tag_id)
+                VALUES
+                    ${tagInserts};
+            `
+            const response = await db.any(query)
+        } catch (error) {
+            console.error('ERROR', error)
+            return error
+        }
+    };
 }
 
 module.exports = UsersModel;

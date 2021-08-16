@@ -35,5 +35,35 @@ router.post('/update', async (req, res) => {
     res.status(200).send(response);
 });
 
+//GET avoid array for a user
+router.get('/avoid/:user_id', async (req, res) => {
+    if (!!req.params.user_id) {
+        const { user_id } = req.params;
+        const avoidData = await UsersModel.getUserAvoidData(user_id);
+        console.log(avoidData[0].avoid_tags)
+        res.json(avoidData[0].avoid_tags).status(200);
+    }
+});
+
+//POST add initial avoid data for a user
+router.post('/avoid/update', async (req, res) => {
+    const { user_id, avoid_tags } = req.body;
+    const response = await UsersModel.addAvoidData(user_id, avoid_tags);
+    res.json(response).status(200);
+});
+
+//POST delete and reinsert avoid array for a user
+router.post('/avoid/update', async (req, res) => {
+    const { user_id, avoid_tags } = req.body;
+    const response1 = await UsersModel.deleteAvoidData(user_id);
+    const response2 = await UsersModel.addAvoidData(user_id, avoid_tags);
+    res.json({
+        deleteResponse: response1,
+        addResponse: response2
+    }).status(200);
+});
+
+
+
 
 module.exports = router;
