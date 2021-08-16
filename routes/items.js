@@ -44,22 +44,21 @@ router.post('/items-match', async (req, res) => {
     const allItems = await ItemsModel.getAll();
     //GET quiz info
     const quizData = await QuizzesModel.getAllUserQuizData(user_id);
+    //console.log(quizData);
     //GET user inventory
     const userInventory = await ItemsModel.getUserInventory(user_id);
     //GET avoid tags
     const avoidTags = await UsersModel.getUserAvoidData(user_id);
-
-    //FILTER BY BUDGET & CATEGORY
-    //FILTER BY COLORS
-
-
-
-    //FILTER BY INVENTORY
-
-
     //console.log(avoidTags);
 
+    const budget = quizData.budget;
+    //FILTER BY BUDGET & CATEGORY
+    const filteredByBudget = allItems.filter(item => item.price < budget);
+    console.log(filteredByBudget);
+    //FILTER BY COLORS
+    //FILTER BY INVENTORY
     //FILTER BY AVOID TAGS
+
     res.json(allItems).status(200);
 });
 
