@@ -4,32 +4,38 @@
 
     GET /
 
-returns "Welcome to the Interiorize API!"
+<b>Returns text: "Welcome to the Interiorize API!"</b>
 
 ## ITEMS ENDPOINTS
 
     GET /items
 
-returns array of all items in the database
-item_name (string)
-description (string)
-img_src (string)
-price (integer)
-brand (string)
-category_name (string)
-color_name (string)
-tags (string[])
+<b>Returns an array of all items in the database</b>
+<ul>
+    <li>item_name (string)</li>
+    <li>description (string)</li>
+    <li>img_src (string)</li>
+    <li>price (integer)</li>
+    <li>brand (string)</li>
+    <li>category_name (string)</li>
+    <li>color_name (string)</li>
+    <li>tags (string[])</li>
+</ul>
+
 
     GET /items/byid/:order_id
 
 params: order_id (integer)
 
-returns an array of all items contained in a certain order_id
-item_name (string),
-description (string),
-img_src (string),
-price (integer),
-brand (string)
+<b>Returns an array of all items that match the input order_id in the orders_items table</b>
+Each object contains: 
+<ul>
+    <li>item_name (string)</li>
+    <li>description (string)</li>
+    <li>img_src (string)</li>
+    <li>price (integer)</li>
+    <li>brand (string)</li>
+</ul>
 
     GET /items/single/:item_id
 
@@ -44,6 +50,10 @@ brand (string)
     <li>color_name (string)</li>
     <li>tags (string[])</li>
 </ul>
+
+    GET /items/items-match
+
+<b>Returns an array of all items matching the quiz/avoid criteria for this user</b>
 
 ## USERS ENDPOINTS
 
@@ -73,3 +83,68 @@ body: {
 }
 
 ## USERS/AVOID ENDPOINTS
+
+    GET /users/avoid/:user_id
+
+params: user_id (integer)
+
+<b>Returns an array of tag_ids that the user has chosen to avoid</b>
+
+    POST /users/avoid/add
+
+body: {
+    user_id: (integer),
+    tags_array: (integer[])
+}
+
+    POST /users/avoid/update
+
+body: {
+    user_id: (integer),
+    tags_array: (integer[])
+}
+
+<b>First deletes exists entries for this user_id in the users_tags table. Then, adds new tags</b>
+
+## QUIZZES ENDPOINTS
+
+    GET /quizzes/:user_id
+
+params: user_id (integer)
+
+<b>Returns an object containing a user's quiz data</b>
+
+<ul>
+    <li>user_id: (integer)</li>
+    <li>budget: (integer)</li>
+    <li>colors: (integer[])</li>
+    <li>category_name: (integer)</li>
+</ul>
+
+    GET /quizzes/add
+
+body: {
+    user_id: (integer),
+    budget: (integer),
+    color_one_id: (integer),
+    color_two_id: (integer),
+    color_three_id: (integer),
+    category_id: (integer),
+    style_id: (integer)
+}
+
+<b>Adds new quiz data for a user</b>
+
+    GET /quizzes/update
+
+body: {
+    user_id: (integer),
+    budget: (integer),
+    color_one_id: (integer),
+    color_two_id: (integer),
+    color_three_id: (integer),
+    category_id: (integer),
+    style_id: (integer)
+}
+
+<b>Updates all quiz data for a user</b>
