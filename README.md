@@ -71,3 +71,5 @@ body: {
 body: {
     user_sub: (string) - from Auth0 but slice off 'auth0|' and insert just the numbers
 }
+
+## USERS/AVOID ENDPOINTS
