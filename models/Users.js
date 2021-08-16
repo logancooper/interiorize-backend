@@ -96,7 +96,6 @@ class UsersModel {
     };
 
     static async addAvoidData(user_id, avoid_tags) {
-        console.log(typeof avoid_tags)
         let tagInserts = '';
         avoid_tags.forEach(tag => {
             if (tagInserts === '') {
