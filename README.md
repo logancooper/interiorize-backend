@@ -33,15 +33,17 @@ brand (string)
 
     GET /items/single/:item_id
 
-returns one item object with a matching item_id
-item_name (string)
-description (string)
-img_src (string)
-price (integer)
-brand (string)
-category_name (string)
-color_name (string)
-tags (string[])
+<b>Returns one item object with a matching item_id</b>
+<ul>
+    <li>item_name (string)</li>
+    <li>description (string)</li>
+    <li>img_src (string)</li>
+    <li>price (integer)</li>
+    <li>brand (string)</li>
+    <li>category_name (string)</li>
+    <li>color_name (string)</li>
+    <li>tags (string[])</li>
+</ul>
 
 ## USERS ENDPOINTS
 
@@ -58,5 +60,14 @@ returns one user object
 Adds a new user to the database
 
 body: {
-    
+    user_sub: (string) - from Auth0 but slice off 'auth0|' and insert just the numbers
+    first_name: (string)
+    last_name: (string)
+    email: (string)
+}
+
+    POST /users/delete
+
+body: {
+    user_sub: (string) - from Auth0 but slice off 'auth0|' and insert just the numbers
 }

@@ -25,7 +25,7 @@ router.post('/add', async (req, res) => {
 
 //POST - delete existing user
 router.post('/delete', async (req, res) => {
-    const response = await UsersModel.delete(req.body.user_id);
+    const response = await UsersModel.delete(req.body.user_sub);
     res.status(200).send(response);
 });
 
