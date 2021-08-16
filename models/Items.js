@@ -113,36 +113,6 @@ class ItemsModel {
         }
     };
 
-    static async getItemsMatchingQuizData(user_id, budget, color_one_id, color_two_id, color_three_id, category_name)
-    {
-        //GET all items
-        const allItems = getAll();
-        //FILTER BY BUDGET & CATEGORY
-        //GET user inventory
-        const userInventory = getUserInventory(user_id);
-        //FILTER BY INVENTORY
-        //GET avoid tags
-        //FILTER BY AVOID TAGS
-        //FILTER BY COLORS
-        try {
-            const response = await db.any(`
-                SELECT item_name, description, img_src, price, brand, category_name, color_name, array_agg(tag_description) as tags
-                FROM items
-                INNER JOIN item_categories ON items.id = item_categories.item_id
-                INNER JOIN categories ON categories.id = item_categories.category_id
-                INNER JOIN colors ON items.color_id = colors.id
-                INNER JOIN items_tags ON items.id = items_tags.item_id
-                INNER JOIN tags ON tags.id = items_tags.tag_id
-                WHERE items.id = ${item_id}
-                GROUP BY item_name, description, img_src, price, brand, category_name, color_name;
-            `);
-            return response;
-        } catch (error) {
-            console.error('ERROR', error)
-            return error
-        }
-    };
-
 
 }
 

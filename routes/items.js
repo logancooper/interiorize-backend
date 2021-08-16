@@ -2,6 +2,7 @@
 
 const express = require('express');
 const ItemsModel = require('../models/Items');
+const UsersModel = require('../models/Users');
 const router = express.Router();
 
 //GET array of all items in the database
@@ -31,6 +32,30 @@ router.get('/filter/?', async (req, res) => {
     const { category, color } = req.query;
     const filteredItems = await ItemsModel.getBy(category, color);
     res.json(filteredItems).status(200);
+});
+
+//GET array of all items matching quiz data for provided user
+router.post('/items-match', async (req, res) => {
+    console.log(req.body);
+    const { user_id } = req.body;
+
+    //GET all items
+    const allItems = await this.getAll();
+
+    //GET quiz info
+    //FILTER BY BUDGET & CATEGORY
+
+    //GET user inventory
+    const userInventory = await this.getUserInventory(user_id);
+
+    //FILTER BY INVENTORY
+
+    //GET avoid tags
+    const avoidTags = await UsersModel.avoidTags
+    //FILTER BY AVOID TAGS
+    //FILTER BY COLORS
+    const matchingItems = await ItemsModel.getItemsMatchingQuizData(user_id);
+    res.json(matchingItems).status(200);
 });
 
 module.exports = router;
