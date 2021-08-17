@@ -45,6 +45,13 @@ router.get('/avoid/:user_id', async (req, res) => {
     }
 });
 
+//GET avoid array of strings
+router.get('/avoid/string/:user_id', async (req, res) => {
+    const { user_id } = req.params;
+    const avoidStrings = await UsersModel.getUserAvoidStrings(user_id);
+    res.json(avoidStrings[0].avoid_tags).status(200);
+});
+
 //POST add initial avoid data for a user
 router.post('/avoid/add', async (req, res) => {
     const { user_id, avoid_tags } = req.body;

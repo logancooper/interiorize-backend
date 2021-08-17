@@ -83,6 +83,21 @@ class UsersModel {
         }
     };
 
+    static async getUserAvoidStrings(user_id) {
+        try {
+            const response = await db.any(`
+                SELECT ARRAY_AGG(tag_description) as avoid_tags  
+                FROM users_avoid_tags
+                INNER JOIN tags ON users_avoid_tags.tag_id = tags.id
+                WHERE user_id = ${user_id};
+            `);
+            return response;
+        } catch (error) {
+            console.error('ERROR', error)
+            return error
+        }
+    };
+
     static async deleteAvoidData(user_id) {
         try {
             const response = await db.any(`
