@@ -55,7 +55,7 @@
 
 <b>Returns text: "Welcome to the Interiorize API!"</b>
 
-# ITEMS ENDPOINTS
+## ITEMS ENDPOINTS
 
     GET /items
 
@@ -116,7 +116,15 @@ body: {
 
     GET /users
 
-returns an array of all users
+<b>Returns an array of all user objects</b>
+
+<ul>User
+    <li>id: (integer)</li>
+    <li>user_sub: (string) - from Auth0</li>
+    <li>first_name: (string)</li>
+    <li>last_name: (string)</li>
+    <li>email: (string)</li>
+</ul>
 
     GET /users/:user_id
 
