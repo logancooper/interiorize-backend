@@ -1,9 +1,9 @@
 const db = require('./conn');
 
 class UsersModel {
-    constructor(id, auth0_id, first_name, last_name, email) {
+    constructor(id, user_sub, first_name, last_name, email) {
         this.id = id;
-        this.auth0_id = auth0_id;
+        this.user_sub = user_sub;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
@@ -23,11 +23,11 @@ class UsersModel {
     };
 
     //
-    static async getUser(user_sub) {
+    static async getUser(user_id) {
         try {
             const response = await db.any(`
                 SELECT * FROM users
-                WHERE user_sub = '${user_sub}';`
+                WHERE id = ${user_id};`
             )
             return response;
         } catch (error) {
