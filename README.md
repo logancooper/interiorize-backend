@@ -1,4 +1,53 @@
-# Interiorize - Backend
+# Interiorize API
+<br/>
+<details>
+  <summary>Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#items-endpoints">Items Endpoints</a>
+      <ul>
+        <li>GET /items</li>
+        <li>GET /items/byId/:order_id</li>
+        <li>GET /items/single/:item_id</li>
+        <li>GET /items/items-match</li>
+      </ul>
+    </li>
+    <li>
+      <a href="#users-endpoints">Users Endpoints</a>
+      <ul>
+        <li>GET /users</li>
+        <li>GET /users/:user_id</li>
+        <li>POST /users/add</li>
+        <li>POST /users/delete</li>
+      </ul>
+    </li>
+    <li>
+        <a href="#users/avoid-endpoints">Avoid Endpoints</a>
+        <ul>
+            <li>GET /users/avoid/:user_id</li>
+            <li>GET /users/avoid/string/:user_id</li>
+            <li>GET /users/avoid/add</li>
+            <li>GET /users/avoid/update</li>
+        </ul>
+    </li>
+    <li>
+        <a href="#quizzes-endpoints">Quizzes Endpoints</a>
+         <ul>
+            <li>GET /quizzes/:user_id</li>
+            <li>POST /quizzes/add</li>
+            <li>POST /quizzes/update</li>
+        </ul>
+    </li>
+    <li>
+        <a href="#orders-endpoints">Orders Endpoints</a>
+        <ul>
+        <li>GET /orders</li>
+        <li>GET /orders/:user_id</li>
+        <li>POST /orders/add</li>
+      </ul>
+    </li>    
+  </ol>
+</details><br/><br/>
 
     BASE URL - https://api.interiorize.design
 
@@ -6,7 +55,7 @@
 
 <b>Returns text: "Welcome to the Interiorize API!"</b>
 
-## ITEMS ENDPOINTS
+# ITEMS ENDPOINTS
 
     GET /items
 
@@ -59,13 +108,17 @@ body: {
 
 <b>Returns an array of all items matching the quiz/avoid criteria for this user</b>
 
+<p align="center">
+    <a href="#interiorize-api">Back to Top</a>
+</p>
+
 ## USERS ENDPOINTS
 
     GET /users
 
 returns an array of all users
 
-    GET /users/:user_sub
+    GET /users/:user_id
 
 returns one user object
 
@@ -86,6 +139,10 @@ body: {
     user_sub: (string) - from Auth0 but slice off 'auth0|' and insert just the numbers
 }
 
+<p align="center">
+    <a href="#interiorize-api">Back to Top</a>
+</p>
+
 ## USERS/AVOID ENDPOINTS
 
     GET /users/avoid/:user_id
@@ -93,6 +150,12 @@ body: {
 params: user_id (integer)
 
 <b>Returns an array of tag_ids that the user has chosen to avoid</b>
+
+    GET /users/avoid/string/:user_id
+
+params: user_id (integer)
+
+<b>Returns an array of tag_descriptions (string) that the user has chosen to avoid</b>
 
     POST /users/avoid/add
 
@@ -109,6 +172,9 @@ body: {
 }
 
 <b>First deletes exists entries for this user_id in the users_tags table. Then, adds new tags</b>
+<p align="center">
+    <a href="#interiorize-api">Back to Top</a>
+</p>
 
 ## QUIZZES ENDPOINTS
 
@@ -153,6 +219,10 @@ body: {
 
 <b>Updates all quiz data for a user</b>
 
+<p align="center">
+    <a href="#interiorize-api">Back to Top</a>
+</p>
+
 ## ORDERS ENDPOINTS
 
     GET /orders
@@ -190,3 +260,7 @@ body: {
     <li>Add all items in the items array to user inventory</li>
     <li>Returns the new order_id</li>
 </ul>
+
+<p align="center">
+    <a href="#interiorize-api">Back to Top</a>
+</p>
