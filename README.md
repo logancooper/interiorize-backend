@@ -53,6 +53,10 @@ Each object contains:
 
     GET /items/items-match
 
+body: {
+    user_id: (integer)
+}
+
 <b>Returns an array of all items matching the quiz/avoid criteria for this user</b>
 
 ## USERS ENDPOINTS
@@ -94,14 +98,14 @@ params: user_id (integer)
 
 body: {
     user_id: (integer),
-    tags_array: (integer[])
+    avoid_tags: (integer[])
 }
 
     POST /users/avoid/update
 
 body: {
     user_id: (integer),
-    tags_array: (integer[])
+    avoid_tags: (integer[])
 }
 
 <b>First deletes exists entries for this user_id in the users_tags table. Then, adds new tags</b>
@@ -121,7 +125,7 @@ params: user_id (integer)
     <li>category_name: (integer)</li>
 </ul>
 
-    GET /quizzes/add
+    POST /quizzes/add
 
 body: {
     user_id: (integer),
@@ -135,7 +139,7 @@ body: {
 
 <b>Adds new quiz data for a user</b>
 
-    GET /quizzes/update
+    POST /quizzes/update
 
 body: {
     user_id: (integer),
@@ -173,7 +177,7 @@ body: {
     <li>items: (text[])</li>
 </ul>
 
-    POST orders/add
+    POST /orders/add
 
 body: {
     user_id: (integer),

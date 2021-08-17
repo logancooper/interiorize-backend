@@ -67,7 +67,8 @@ CREATE TABLE quizzes(
     color_one_id integer REFERENCES colors(id),
     color_two_id integer REFERENCES colors(id),
     color_three_id integer REFERENCES colors(id),
-    category_id integer REFERENCES categories(id)
+    category_id integer REFERENCES categories(id),
+    style_id integer
 );
 
 CREATE TABLE users_tags(
