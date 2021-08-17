@@ -35,31 +35,75 @@ router.get('/filter/?', async (req, res) => {
     res.json(filteredItems).status(200);
 });
 
-//GET array of all items matching quiz data for provided user
-router.post('/items-match', async (req, res) => {
+//GET array of all items matching quiz data for provided user, then generate an order from those items
+router.post('/generate-order', async (req, res) => {
     console.log(req.body);
     const { user_id } = req.body;
 
     //GET all items
     const allItems = await ItemsModel.getAll();
+    
     //GET quiz info
     const quizData = await QuizzesModel.getAllUserQuizData(user_id);
-    //console.log(quizData);
+    const budget = quizData.budget;
+    const category = quizData.category_name;
+    //const quizColors = quizData.colors[0];
+    //const colorOneId = quizColors[0];
+    //const colorTwoId = quizColors[1];
+    //const colorThreeId = quizColors[2];
+    
     //GET user inventory
     const userInventory = await ItemsModel.getUserInventory(user_id);
+    
     //GET avoid tags
-    const avoidTags = await UsersModel.getUserAvoidData(user_id);
-    //console.log(avoidTags);
+    const avoidTagsReturn = await UsersModel.getUserAvoidData(user_id);
+    const avoidTags = avoidTagsReturn[0].avoid_tags;
 
-    const budget = quizData.budget;
     //FILTER BY BUDGET & CATEGORY
     const filteredByBudget = allItems.filter(item => item.price < budget);
-    console.log(filteredByBudget);
+    
+    //FILTER BY CATEGORY
+    const filteredByBudgetCategory = filteredByBudget.filter(item => item.category_name === category);
+    
     //FILTER BY COLORS
+    //const filteredByBudgetCategoryColor = filteredByBudgetCategory.filter(item => item.color_id === colorOneId || item.color_id === colorTwoId || item.color_id === colorThreeId);
+    
     //FILTER BY INVENTORY
+    //foreach item in the user inventory, filter the list based on off that item
+    let filteredByBudgetCategoryColorInventory;
+    userInventory.forEach(userItem => {
+        filteredByBudgetCategoryColorInventory = filteredByBudgetCategory.filter(item => userItem.id !== item.id);
+    });
+    
     //FILTER BY AVOID TAGS
+    //Foreach tag in avoid tags, check each tag in the item tags list. If the avoid tag is there, filter that item out
+    let finalFilteredList = [];
+    //for each item in the filtered list
+    filteredByBudgetCategoryColorInventory.forEach(item => {
+        let isDirty = false;
+        //check against each tag
+        avoidTags.forEach(avoidTag => {
+            //if the item tag list includes an avoidTag, mark the item as dirty and exclude it from the final list
+            if(item.tags.includes(avoidTag))
+            {
+                isDirty = true;
+            }
+        });
+        if(!isDirty)
+        {
+            finalFilteredList.push(item);
+        }
+    });
 
-    res.json(allItems).status(200);
+    //SELECT ITEMS FOR ORDER
+    //Select items from the filtered list at random
+    //Add their price to the total, make sure it doesn't go over budget
+    //if no matches, end search and post the order
+
+    //GENERATE & POST ORDER
+    
+
+    res.json(finalFilteredList).status(200);
 });
 
 module.exports = router;

@@ -73,7 +73,8 @@ class UsersModel {
     static async getUserAvoidData(user_id) {
         try {
             const response = await db.any(`
-                SELECT ARRAY_AGG(tag_id) as avoid_tags FROM users_avoid_tags
+                SELECT ARRAY_AGG(tag_description) as avoid_tags FROM users_avoid_tags
+                INNER JOIN tags ON tags.id = users_avoid_tags.tag_id
                 WHERE user_id = ${user_id};
             `);
             return response;
