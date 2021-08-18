@@ -23,11 +23,11 @@ class UsersModel {
     };
 
     //
-    static async getUser(user_id) {
+    static async getUser(user_sub) {
         try {
             const response = await db.any(`
                 SELECT * FROM users
-                WHERE id = ${user_id};`
+                WHERE user_sub = '${user_sub}';`
             )
             return response;
         } catch (error) {
@@ -38,13 +38,14 @@ class UsersModel {
 
     static async addUser(reqBody) {
         //parse reqBody
-        const { user_sub, first_name, last_name, email } = reqBody;
+        const { user_sub, nickname, email } = reqBody;
         try {
             const query = `
             INSERT INTO users
-            (user_sub, first_name, last_name, email)
+            (user_sub, nickname, email)
             VALUES
-            ('${user_sub}', '${first_name}', '${last_name}', '${email}');`;
+            ('${user_sub}', '${nickname}', '${email}')
+            RETURNING id, user_sub, nickname;`;
             const response = await db.one(query);
             return response;
         } catch (error) {

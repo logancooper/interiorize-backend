@@ -26,8 +26,8 @@
         <ul>
             <li>GET /users/avoid/:user_id</li>
             <li>GET /users/avoid/string/:user_id</li>
-            <li>GET /users/avoid/add</li>
-            <li>GET /users/avoid/update</li>
+            <li>POST /users/avoid/add</li>
+            <li>POST /users/avoid/update</li>
         </ul>
     </li>
     <li>
@@ -121,12 +121,11 @@ body: {
 <ul>User
     <li>id: (integer)</li>
     <li>user_sub: (string) - from Auth0</li>
-    <li>first_name: (string)</li>
-    <li>last_name: (string)</li>
+    <li>nickname: (string)</li>
     <li>email: (string)</li>
 </ul>
 
-    GET /users/:user_id
+    GET /users/:user_sub
 
 returns one user object
 

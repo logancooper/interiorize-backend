@@ -4,12 +4,9 @@ const router = express.Router();
 
 //GET single user data or all user data
 router.get('/:user_sub?', async (req, res) => {
-    if (!!req.params.user_sub) {
-        const { user } = req.params;
+    if (req.params.user_sub) {
+        const { user_sub } = req.params;
         const singleUser = await UsersModel.getUser(user_sub);
-        if (singleUser.count = 0) {
-            res.send(singleUser)
-        }
         res.json(singleUser).status(200);
     } else {
         const allUsers = await UsersModel.getAll();
@@ -19,7 +16,7 @@ router.get('/:user_sub?', async (req, res) => {
 
 //POST - add new user
 router.post('/add', async (req, res) => {
-    const response = await UsersModel.add(req.body);
+    const response = await UsersModel.addUser(req.body);
     res.send(response);
 });
 
