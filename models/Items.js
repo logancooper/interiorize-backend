@@ -82,6 +82,7 @@ class ItemsModel {
                 INNER JOIN tags ON tags.id = items_tags.tag_id
                 WHERE items.id = ${item_id}
                 GROUP BY item_name, description, img_src, price, brand, category_name, color_name, color_id;
+
             `);
             return response;
         } catch (error) {
@@ -113,6 +114,30 @@ class ItemsModel {
         }
     };
 
+    //POST add items to user inventory
+    static async addItemsToInventory(user_id, items) {
+        let itemInsert = '';
+        items.forEach(item => {
+            if (itemInsert === '') {
+                itemInsert += `(${user_id}, ${item})`
+            } else {
+                itemInsert += `,(${user_id}, ${item})`
+            }
+        })
+        try {
+            const query = `
+                INSERT INTO users_inventory
+                (user_id, item_id)
+                VALUES
+                ${itemInsert};
+                `
+            const response = await db.any(query);
+            return response;
+        } catch (error) {
+            console.error('ERROR', error)
+            return error
+        }
+    };
 
 }
 
