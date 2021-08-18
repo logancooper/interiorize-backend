@@ -22,7 +22,7 @@
       </ul>
     </li>
     <li>
-        <a href="#users/avoid-endpoints">Avoid Endpoints</a>
+        <a href="#avoid-endpoints">Avoid Endpoints</a>
         <ul>
             <li>GET /users/avoid/:user_id</li>
             <li>GET /users/avoid/string/:user_id</li>
@@ -47,7 +47,7 @@
       </ul>
     </li>    
   </ol>
-</details><br/><br/>
+</details><br/>
 
     BASE URL - https://api.interiorize.design
 
@@ -151,7 +151,7 @@ body: {
     <a href="#interiorize-api">Back to Top</a>
 </p>
 
-## USERS/AVOID ENDPOINTS
+## AVOID ENDPOINTS
 
     GET /users/avoid/:user_id
 
@@ -248,12 +248,14 @@ body: {
 
 <b>Returns an array of all orders associated with the input user_id</b>
 
-<ul>
-    <li>order_id: (integer)</li>
-    <li>user_id: (integer)</li>
+<ul>orderHistory objects
+    <li>id: (integer) - order_id</li>
     <li>created_data: (timestamp)</li>
-    <li>items: (text[])</li>
 </ul>
+<ul>orderedItems objects</ul>
+    <li>item_name: (string)</li>
+    <li>description: (string)</li>
+    <li>price: (integer)</li>
 
     POST /orders/add
 
