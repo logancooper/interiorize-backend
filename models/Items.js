@@ -82,10 +82,6 @@ class ItemsModel {
                 INNER JOIN tags ON tags.id = items_tags.tag_id
                 WHERE items.id = ${item_id}
                 GROUP BY item_name, description, img_src, price, brand, category_name, color_name, color_id;
-<<<<<<< HEAD
-=======
-
->>>>>>> 89f799283e56769fa7bc3f66e10feb7b8ce3329e
             `);
             return response;
         } catch (error) {
