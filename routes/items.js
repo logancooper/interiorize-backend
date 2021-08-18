@@ -96,7 +96,28 @@ router.post('/generate-order', async (req, res) => {
     });
 
     //SELECT ITEMS FOR ORDER
-    //Select items from the filtered list at random
+    let orderItems = [];
+    let remainingBudget = budget;
+    
+    while(remainingBudget > 0 || finalFilteredList.length > 0)
+    {
+        //Select an item index at random
+        const randomItemIndex = Math.floor(Math.random() * finalFilteredList.length);
+        //if the price of that item is less than the remaining budget
+        if(finalFilteredList[randomItemIndex].price < remainingBudget)
+        {
+            //add it to the orderItems
+            orderItems.push(finalFilteredList[randomItemIndex]);
+            //remove it from the finalFilteredList
+            finalFilteredList.remove(randomItemIndex);
+
+        }
+        else
+        {
+            //remove it from the finalFilteredList
+            finalFilteredList.remove(randomItemIndex);
+        }
+    }
     //Add their price to the total, make sure it doesn't go over budget
     //if no matches, end search and post the order
 
