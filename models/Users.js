@@ -1,9 +1,9 @@
 const db = require('./conn');
 
 class UsersModel {
-    constructor(id, auth0_id, first_name, last_name, email) {
+    constructor(id, user_sub, first_name, last_name, email) {
         this.id = id;
-        this.auth0_id = auth0_id;
+        this.user_sub = user_sub;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
@@ -23,11 +23,11 @@ class UsersModel {
     };
 
     //
-    static async getUser(user_sub) {
+    static async getUser(user_id) {
         try {
             const response = await db.any(`
                 SELECT * FROM users
-                WHERE user_sub = '${user_sub}';`
+                WHERE id = ${user_id};`
             )
             return response;
         } catch (error) {
@@ -73,8 +73,23 @@ class UsersModel {
     static async getUserAvoidData(user_id) {
         try {
             const response = await db.any(`
-                SELECT ARRAY_AGG(tag_description) as avoid_tags FROM users_avoid_tags
+                SELECT ARRAY_AGG(tag_id) as avoid_tags FROM users_avoid_tags
                 INNER JOIN tags ON tags.id = users_avoid_tags.tag_id
+                WHERE user_id = ${user_id};
+            `);
+            return response;
+        } catch (error) {
+            console.error('ERROR', error)
+            return error
+        }
+    };
+
+    static async getUserAvoidStrings(user_id) {
+        try {
+            const response = await db.any(`
+                SELECT ARRAY_AGG(tag_description) as avoid_tags  
+                FROM users_avoid_tags
+                INNER JOIN tags ON users_avoid_tags.tag_id = tags.id
                 WHERE user_id = ${user_id};
             `);
             return response;

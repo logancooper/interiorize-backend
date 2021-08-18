@@ -15,10 +15,15 @@ class QuizzesModel {
     static async getAllUserQuizData(user_id) {
         try {
             const response = await db.one(`
-                SELECT user_id, budget, json_agg(json_build_array(color_one_id, color_two_id, color_three_id)) as colors, category_name FROM quizzes
-                INNER JOIN categories ON categories.id = quizzes.category_id
+                SELECT user_id, budget, json_agg(json_build_array(color_one_id, color_two_id, color_three_id)) as colors, r1.color_name as color1, r2.color_name as color2, r3.color_name as color3, category_id, categories.category_name, style_id, tag_description as style_name 
+                FROM quizzes
+                INNER JOIN categories ON categories.id = category_id
+                INNER JOIN tags ON tags.id = quizzes.style_id
+                INNER JOIN colors as r1 ON r1.id = color_one_id
+                INNER JOIN colors as r2 ON r2.id = color_two_id
+                INNER JOIN colors as r3 ON r3.id = color_three_id
                 WHERE user_id = ${user_id}
-                GROUP BY user_id, budget, category_name; `
+                GROUP BY user_id, budget, categories.category_name, quizzes.category_id, r1.color_name, r2.color_name, r3.color_name, tag_description, style_id; `
             )
             return response;
         } catch (error) {
@@ -45,15 +50,16 @@ class QuizzesModel {
     };
 
     static async updateQuizData(reqBody) {
-        const { user_id, budget, color_one_id, color_two_id, color_three_id, category_id } = reqBody;
+        const { user_id, budget, color_one_id, color_two_id, color_three_id, category_id, style_id } = reqBody;
         try {
-            const response = await db.one(`
+            const response = await db.any(`
                 UPDATE quizzes
                 SET budget = ${budget},
                     color_one_id = ${color_one_id},
                     color_two_id = ${color_two_id},
                     color_three_id = ${color_three_id},
-                    category_id = ${category_id}
+                    category_id = ${category_id},
+                    style_id = ${style_id}
                 WHERE user_id = ${user_id}; `
             )
             return response;
