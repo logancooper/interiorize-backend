@@ -4,6 +4,8 @@ const express = require('express');
 const ItemsModel = require('../models/Items');
 const UsersModel = require('../models/Users');
 const QuizzesModel = require('../models/Quizzes');
+const OrdersModel = require('../models/Orders');
+const e = require('express');
 const router = express.Router();
 
 //GET array of all items in the database
@@ -56,7 +58,7 @@ router.post('/generate-order', async (req, res) => {
     const userInventory = await ItemsModel.getUserInventory(user_id);
     
     //GET avoid tags
-    const avoidTagsReturn = await UsersModel.getUserAvoidData(user_id);
+    const avoidTagsReturn = await UsersModel.getUserAvoidStrings(user_id);
     const avoidTags = avoidTagsReturn[0].avoid_tags;
 
     //FILTER BY BUDGET & CATEGORY
@@ -95,6 +97,8 @@ router.post('/generate-order', async (req, res) => {
         }
     });
 
+    //console.log(finalFilteredList);
+
     //SELECT ITEMS FOR ORDER
     let orderItems = [];
     let remainingBudget = budget;
@@ -103,28 +107,46 @@ router.post('/generate-order', async (req, res) => {
     {
         //Select an item index at random
         const randomItemIndex = Math.floor(Math.random() * finalFilteredList.length);
+        //console.log(finalFilteredList[randomItemIndex]);
         //if the price of that item is less than the remaining budget
         if(finalFilteredList[randomItemIndex].price < remainingBudget)
         {
             //add it to the orderItems
             orderItems.push(finalFilteredList[randomItemIndex]);
             //remove it from the finalFilteredList
-            finalFilteredList.remove(randomItemIndex);
-
+            finalFilteredList.splice(randomItemIndex,1);
+            //subtract the price from the budget
+            remainingBudget -= finalFilteredList[randomItemIndex].price;
         }
         else
         {
             //remove it from the finalFilteredList
-            finalFilteredList.remove(randomItemIndex);
+            finalFilteredList.splice(randomItemIndex,1);
         }
     }
-    //Add their price to the total, make sure it doesn't go over budget
-    //if no matches, end search and post the order
 
-    //GENERATE & POST ORDER
+    //console.log("Items in order: ", orderItems);
+    let orderItemIDs = [];
+    if(orderItems.length > 0)
+    {
+        orderItems.forEach(item => {
+            orderItemIDs.push(item.id);
+        });
+        //console.log(orderItemIDs);
+        //GENERATE & POST ORDER
+        const response1 = await OrdersModel.createOrder(user_id);
+        const order_id = response1.id;
+        const response2 = await OrdersModel.addItemsToOrder(order_id, orderItemIDs);
+        const response3 = await ItemsModel.addItemsToInventory(user_id, orderItemIDs);
+        console.log("Created Order!");
+        res.json(orderItems).status(200);
+    }
+    else
+    {
+        console.log("No items found matching the quiz criteria");
+        res.json().status(500);
+    }
     
-
-    res.json(finalFilteredList).status(200);
 });
 
 module.exports = router;
