@@ -74,7 +74,10 @@ class UsersModel {
         try {
             const response = await db.any(`
                 SELECT ARRAY_AGG(tag_id) as avoid_tags FROM users_avoid_tags
+<<<<<<< HEAD
                 INNER JOIN tags ON tags.id = users_avoid_tags.tag_id
+=======
+>>>>>>> 89f799283e56769fa7bc3f66e10feb7b8ce3329e
                 WHERE user_id = ${user_id};
             `);
             return response;
