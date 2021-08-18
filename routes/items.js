@@ -81,6 +81,7 @@ router.post('/generate-order', async (req, res) => {
     //Foreach tag in avoid tags, check each tag in the item tags list. If the avoid tag is there, filter that item out
     let finalFilteredList = [];
     //for each item in the filtered list
+    console.log(filteredByBudgetCategoryColorInventory)
     filteredByBudgetCategoryColorInventory.forEach(item => {
         let isDirty = false;
         //check against each tag
