@@ -1,6 +1,9 @@
 const express = require('express');
 const QuizzesModel = require('../models/Quizzes');
 const router = express.Router();
+const checkJwt = require('../utilities');
+
+router.use(checkJwt);
 
 //GET quiz data for a user
 router.get('/:user_id', async (req, res) => {

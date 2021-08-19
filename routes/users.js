@@ -1,6 +1,9 @@
 const express = require('express');
 const UsersModel = require('../models/Users');
 const router = express.Router();
+const checkJwt = require('../utilities');
+
+router.use(checkJwt);
 
 //GET single user data or all user data
 router.get('/:user_sub?', async (req, res) => {
@@ -69,8 +72,6 @@ router.post('/avoid/update', async (req, res) => {
         addResponse: response2
     }).status(200);
 });
-
-
 
 
 module.exports = router;

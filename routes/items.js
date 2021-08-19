@@ -5,8 +5,8 @@ const ItemsModel = require('../models/Items');
 const UsersModel = require('../models/Users');
 const QuizzesModel = require('../models/Quizzes');
 const OrdersModel = require('../models/Orders');
-const e = require('express');
 const router = express.Router();
+const checkJwt = require('../utilities');
 
 //GET array of all items in the database
 //Refactor and add single route to this one
@@ -16,7 +16,7 @@ router.get('/', async (req, res) => {
 });
 
 //GET array of items included in a specific order_id
-router.get('/byid/:order_id', async (req, res) => {
+router.get('/byid/:order_id', checkJwt, async (req, res) => {
     const { order_id } = req.params;
     const orderData = await ItemsModel.getItemsByOrder(order_id);
     res.json(orderData).status(200);
@@ -38,8 +38,8 @@ router.get('/filter/?', async (req, res) => {
 });
 
 //GET array of all items matching quiz data for provided user, then generate an order from those items
-router.post('/generate-order', async (req, res) => {
-    //console.log(req.body);
+router.post('/generate-order', checkJwt, async (req, res) => {
+    console.log(req.body);
     const { user_id } = req.body;
 
     //GET all items
