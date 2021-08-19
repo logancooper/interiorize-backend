@@ -61,8 +61,9 @@ router.post('/avoid/add', async (req, res) => {
 //POST delete and reinsert avoid array for a user
 router.post('/avoid/update', async (req, res) => {
     const { user_id, avoid_tags } = req.body;
+    const tagsArray = avoid_tags.split(',');
     const response1 = await UsersModel.deleteAvoidData(user_id);
-    const response2 = await UsersModel.addAvoidData(user_id, avoid_tags);
+    const response2 = await UsersModel.addAvoidData(user_id, tagsArray);
     res.json({
         deleteResponse: response1,
         addResponse: response2
