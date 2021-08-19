@@ -58,7 +58,7 @@ class ItemsModel {
     static async getItemsByOrder(order_id) {
         try {
             const response = await db.any(`
-                SELECT item_name, description, img_src, price, brand 
+                SELECT order_id, item_name, description, img_src, price, brand 
                 FROM items
                 INNER JOIN orders_items ON orders_items.item_id = items.id
                 WHERE order_id = ${order_id}; 
