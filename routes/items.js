@@ -44,54 +44,83 @@ router.post('/generate-order', checkJwt, async (req, res) => {
 
     //GET all items
     const allItems = await ItemsModel.getAll();
+    //console.log(allItems);
     
     //GET quiz info
     const quizData = await QuizzesModel.getAllUserQuizData(user_id);
     const budget = quizData.budget;
     const category = quizData.category_name;
-    //const quizColors = quizData.colors[0];
-    //const colorOneId = quizColors[0];
-    //const colorTwoId = quizColors[1];
-    //const colorThreeId = quizColors[2];
+    const style_id = quizData.style_id;
     
     //GET user inventory
     const userInventory = await ItemsModel.getUserInventory(user_id);
+    //console.log("User Inventory: ",userInventory);
     
     //GET avoid tags
     const avoidTagsReturn = await UsersModel.getUserAvoidStrings(user_id);
     const avoidTags = avoidTagsReturn[0].avoid_tags;
+    //console.log(avoidTags);
 
     //FILTER BY BUDGET & CATEGORY
     const filteredByBudget = allItems.filter(item => item.price < budget);
     
     //FILTER BY CATEGORY
     const filteredByBudgetCategory = filteredByBudget.filter(item => item.category_name === category);
+    //console.log(filteredByBudgetCategory);
+
+    //FILTER BY STYLE TAG
+    let filteredByBudgetCategoryStyle = [];
+    filteredByBudgetCategory.forEach(item => {
+        //console.log(item.tag_ids);
+        //If the tags of the item contain the style tag ID, add that item to the new list
+        item.tag_ids.forEach(tag_id => {
+            if(style_id === tag_id)
+            {
+                filteredByBudgetCategoryStyle.push(item);
+            }
+        });
+    });
+
     
     //FILTER BY COLORS
     //const filteredByBudgetCategoryColor = filteredByBudgetCategory.filter(item => item.color_id === colorOneId || item.color_id === colorTwoId || item.color_id === colorThreeId);
     
     //FILTER BY INVENTORY
     //foreach item in the user inventory, filter the list based on off that item
-    let filteredByBudgetCategoryColorInventory;
-    userInventory.forEach(userItem => {
-        filteredByBudgetCategoryColorInventory = filteredByBudgetCategory.filter(item => userItem.id !== item.id);
-    });
-    
+    let filteredByBudgetCategoryStyleInventory = filteredByBudgetCategoryStyle;
+    if(userInventory != null && userInventory.length > 0)
+    {
+        //console.log(userInventory);
+        userInventory.forEach(userItem => {
+            filteredByBudgetCategoryStyleInventory.forEach(item => {
+                if(item.id === userItem.id)
+                {
+                    //console.log("Item exists in inventory: ", item);
+                    filteredByBudgetCategoryStyleInventory.splice(filteredByBudgetCategoryStyleInventory.indexOf(item),1);
+                }
+            });
+            //filteredByBudgetCategoryStyleInventory = filteredByBudgetCategory.filter(item => userItem.id !== item.id);
+        });
+    }
+    //console.log("Filtered by Inventory: ", filteredByBudgetCategoryStyleInventory);
+
     //FILTER BY AVOID TAGS
     //Foreach tag in avoid tags, check each tag in the item tags list. If the avoid tag is there, filter that item out
     let finalFilteredList = [];
     //for each item in the filtered list
-    console.log(filteredByBudgetCategoryColorInventory)
-    filteredByBudgetCategoryColorInventory.forEach(item => {
+    filteredByBudgetCategoryStyleInventory.forEach(item => {
         let isDirty = false;
         //check against each tag
-        avoidTags.forEach(avoidTag => {
-            //if the item tag list includes an avoidTag, mark the item as dirty and exclude it from the final list
-            if(item.tags.includes(avoidTag))
-            {
-                isDirty = true;
-            }
-        });
+        if(avoidTags != null)
+        {
+            avoidTags.forEach(avoidTag => {
+                //if the item tag list includes an avoidTag, mark the item as dirty and exclude it from the final list
+                if(item.tags.includes(avoidTag))
+                {
+                    isDirty = true;
+                }
+            });
+        }
         if(!isDirty)
         {
             finalFilteredList.push(item);
@@ -103,21 +132,26 @@ router.post('/generate-order', checkJwt, async (req, res) => {
     //SELECT ITEMS FOR ORDER
     let orderItems = [];
     let remainingBudget = budget;
+    //console.log("Budget Remaining: ", remainingBudget);
     
-    while(remainingBudget > 0 || finalFilteredList.length > 0)
+    while(remainingBudget > 0 && finalFilteredList.length > 0)
     {
+        //console.log(finalFilteredList);
         //Select an item index at random
         const randomItemIndex = Math.floor(Math.random() * finalFilteredList.length);
+        //console.log("Random Index: ", randomItemIndex);
         //console.log(finalFilteredList[randomItemIndex]);
         //if the price of that item is less than the remaining budget
-        if(finalFilteredList[randomItemIndex].price < remainingBudget)
+        if(finalFilteredList[randomItemIndex].price && finalFilteredList[randomItemIndex].price < remainingBudget)
         {
             //add it to the orderItems
             orderItems.push(finalFilteredList[randomItemIndex]);
-            //remove it from the finalFilteredList
-            finalFilteredList.splice(randomItemIndex,1);
+            //console.log("Adding item to order:", finalFilteredList[randomItemIndex]);
             //subtract the price from the budget
             remainingBudget -= finalFilteredList[randomItemIndex].price;
+            //remove it from the finalFilteredList
+            finalFilteredList.splice(randomItemIndex,1);
+            //console.log("Budget Remaining: ", remainingBudget);
         }
         else
         {
@@ -126,7 +160,8 @@ router.post('/generate-order', checkJwt, async (req, res) => {
         }
     }
 
-    //console.log("Items in order: ", orderItems);
+    console.log("Items in order: ", orderItems);
+    //console.log("Budget Remaining: ", remainingBudget);
     let orderItemIDs = [];
     if(orderItems.length > 0)
     {

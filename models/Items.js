@@ -16,7 +16,7 @@ class ItemsModel {
     static async getAll() {
         try {
             const response = await db.any(`
-                SELECT items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags
+                SELECT items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
                 FROM items
                 INNER JOIN item_categories ON items.id = item_categories.item_id
                 INNER JOIN categories ON categories.id = item_categories.category_id
@@ -38,7 +38,7 @@ class ItemsModel {
             // if category AND not color and not price , query1
             
             const response = await db.any(`
-                SELECT item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags
+                SELECT item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
                 FROM items
                 INNER JOIN item_categories ON items.id = item_categories.item_id
                 INNER JOIN categories ON categories.id = item_categories.category_id
@@ -73,7 +73,7 @@ class ItemsModel {
     static async getSingleItem(item_id) {
         try {
             const response = await db.any(`
-                SELECT items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags
+                SELECT items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
                 FROM items
                 INNER JOIN item_categories ON items.id = item_categories.item_id
                 INNER JOIN categories ON categories.id = item_categories.category_id
@@ -95,7 +95,7 @@ class ItemsModel {
     {
         try {
             const response = await db.any(`
-                SELECT items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags
+                SELECT items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
                 FROM items
                 INNER JOIN item_categories ON items.id = item_categories.item_id
                 INNER JOIN categories ON categories.id = item_categories.category_id

@@ -1,10 +1,10 @@
 CREATE TABLE users(
     id serial PRIMARY KEY,
     user_sub text,
-    first_name text,
-    last_name text,
+    nickname text,
     email varchar(200),
-    UNIQUE(email)
+    UNIQUE(email),
+    UNIQUE(nickname)
 );
 
 CREATE TABLE items(
