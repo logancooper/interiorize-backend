@@ -1,7 +1,6 @@
-# Interiorize API
-<br/>
+<h1 align="center">Interiorize API</h1>
 <details>
-  <summary>Table of Contents</summary>
+  <summary align="center">Table of Contents</summary>
   <ol>
     <li>
       <a href="#items-endpoints">Items Endpoints</a>
@@ -10,6 +9,8 @@
         <li>GET /items/byId/:order_id</li>
         <li>GET /items/single/:item_id</li>
         <li>GET /items/items-match</li>
+        <li>GET /items/shop-search</li>
+        <li>POST /items/generate-order</li>
       </ul>
     </li>
     <li>
@@ -47,7 +48,7 @@
       </ul>
     </li>    
   </ol>
-</details><br/>
+</details><hr/>
 
     BASE URL - https://api.interiorize.design
 
@@ -61,14 +62,18 @@
 
 <b>Returns an array of all items in the database</b>
 <ul>
+    <li>id (integer)</li>
     <li>item_name (string)</li>
     <li>description (string)</li>
     <li>img_src (string)</li>
     <li>price (integer)</li>
     <li>brand (string)</li>
     <li>category_name (string)</li>
+    <li>category_id (integer)</li>
     <li>color_name (string)</li>
+    <li>color_id (integer)</li>
     <li>tags (string[])</li>
+    <li>tag_ids (integer[])</li>
 </ul>
 
 
@@ -77,8 +82,8 @@
 params: order_id (integer)
 
 <b>Returns an array of all items that match the input order_id in the orders_items table</b>
-Each object contains: 
 <ul>
+    <li>order_id (integer)</li>
     <li>item_name (string)</li>
     <li>description (string)</li>
     <li>img_src (string)</li>
@@ -90,14 +95,18 @@ Each object contains:
 
 <b>Returns one item object with a matching item_id</b>
 <ul>
+    <li>id (integer)</li>
     <li>item_name (string)</li>
     <li>description (string)</li>
     <li>img_src (string)</li>
     <li>price (integer)</li>
     <li>brand (string)</li>
     <li>category_name (string)</li>
+    <li>category_id (integer)</li>
     <li>color_name (string)</li>
+    <li>color_id (integer)</li>
     <li>tags (string[])</li>
+    <li>tag_ids (integer[])</li>
 </ul>
 
     GET /items/items-match
@@ -107,6 +116,16 @@ body: {
 }
 
 <b>Returns an array of all items matching the quiz/avoid criteria for this user</b>
+
+    GET /items/shop-search
+
+<b>Returns an array of items filtered by the checkboxes selected by the user</b>
+
+    GET /items/generate-order
+
+body: { user_id: (integer) }
+
+<b>Creates a custom order using the user's saved style quiz results</b>
 
 <p align="center">
     <a href="#interiorize-api">Back to Top</a>
@@ -118,7 +137,7 @@ body: {
 
 <b>Returns an array of all user objects</b>
 
-<ul>User
+<ul>
     <li>id: (integer)</li>
     <li>user_sub: (string) - from Auth0</li>
     <li>nickname: (string)</li>
@@ -195,7 +214,13 @@ params: user_id (integer)
     <li>user_id: (integer)</li>
     <li>budget: (integer)</li>
     <li>colors: (integer[])</li>
+    <li>color1: (string)</li>
+    <li>color2: (string)</li>
+    <li>color3: (string)</li>
+    <li>category_id: (integer)</li>
     <li>category_name: (integer)</li>
+    <li>style_id: (integer)</li>
+    <li>style_name: (string)</li>
 </ul>
 
     POST /quizzes/add
@@ -252,9 +277,12 @@ body: {
     <li>created_data: (timestamp)</li>
 </ul>
 <ul>orderedItems objects</ul>
+    <li>order_id: (integer)</li>
     <li>item_name: (string)</li>
     <li>description: (string)</li>
+    <li>img_src: (string)</li>
     <li>price: (integer)</li>
+    <li>brand: (integer)</li>
 
     POST /orders/add
 
