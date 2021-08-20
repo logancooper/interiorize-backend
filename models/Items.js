@@ -16,14 +16,14 @@ class ItemsModel {
     static async getAll() {
         try {
             const response = await db.any(`
-                SELECT items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
+                SELECT items.id, item_name, description, img_src, price, brand, category_name, category_id, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
                 FROM items
                 INNER JOIN item_categories ON items.id = item_categories.item_id
                 INNER JOIN categories ON categories.id = item_categories.category_id
                 INNER JOIN colors ON items.color_id = colors.id
                 INNER JOIN items_tags ON items.id = items_tags.item_id
                 INNER JOIN tags ON tags.id = items_tags.tag_id
-                GROUP BY items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id; `
+                GROUP BY items.id, item_name, description, img_src, price, brand, category_name, category_id, color_name, color_id; `
             )
             return response;
         } catch (error) {
@@ -32,21 +32,19 @@ class ItemsModel {
         }
     };
 
-    //Get by tag, category, color. Need to write WHERE statement
-    static async getBy(category) {
+    //Shop Search
+    //NOT CURRENTLY USED
+    static async getBy(design_array, category_array, color_array, priceTier_array) {
         try {
-            // if category AND not color and not price , query1
-            
             const response = await db.any(`
-                SELECT item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
+                SELECT items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
                 FROM items
                 INNER JOIN item_categories ON items.id = item_categories.item_id
                 INNER JOIN categories ON categories.id = item_categories.category_id
                 INNER JOIN colors ON items.color_id = colors.id
                 INNER JOIN items_tags ON items.id = items_tags.item_id
                 INNER JOIN tags ON tags.id = items_tags.tag_id
-                WHERE categories.id = ${category}
-                GROUP BY item_name, description, img_src, price, brand, category_name, color_name, color_id;
+                GROUP BY items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id;
             `)
             return response;
         } catch (error) {
@@ -73,7 +71,7 @@ class ItemsModel {
     static async getSingleItem(item_id) {
         try {
             const response = await db.any(`
-                SELECT items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
+                SELECT items.id, item_name, description, img_src, price, brand, category_name, category_id, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
                 FROM items
                 INNER JOIN item_categories ON items.id = item_categories.item_id
                 INNER JOIN categories ON categories.id = item_categories.category_id
@@ -81,7 +79,7 @@ class ItemsModel {
                 INNER JOIN items_tags ON items.id = items_tags.item_id
                 INNER JOIN tags ON tags.id = items_tags.tag_id
                 WHERE items.id = ${item_id}
-                GROUP BY items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id;
+                GROUP BY items.id, item_name, description, img_src, price, brand, category_name, category_id, color_name, color_id;
             `);
             return response;
         } catch (error) {
@@ -95,7 +93,7 @@ class ItemsModel {
     {
         try {
             const response = await db.any(`
-                SELECT items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
+                SELECT items.id, item_name, description, img_src, price, brand, category_name, category_id, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
                 FROM items
                 INNER JOIN item_categories ON items.id = item_categories.item_id
                 INNER JOIN categories ON categories.id = item_categories.category_id
@@ -104,7 +102,7 @@ class ItemsModel {
                 INNER JOIN tags ON tags.id = items_tags.tag_id
                 INNER JOIN users_inventory ON users_inventory.item_id = items.id
                 WHERE users_inventory.user_id = ${user_id}
-                GROUP BY items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id;
+                GROUP BY items.id, item_name, description, img_src, price, brand, category_name, category_id, color_name, color_id;
             `);
             return response;
         } catch (error) {
