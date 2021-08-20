@@ -12,25 +12,26 @@ router.use(checkJwt);
 router.get('/:user_id?', async (req, res) => {
     if (!!req.params.user_id) {
         const { user_id } = req.params;
-        const filteredData = await OrdersModel.getByUserID(user_id);
+        const ordersData = await OrdersModel.getByUserID(user_id);
         let orderIds = [];
-        filteredData.forEach(object => {
+        ordersData.forEach(object => {
             orderIds.push(object.id)
             })
-        let newArray = [];
+        
+        let orderItemData = [];
         let count = 0;
-
-        orderIds.forEach(async (id) => {
-            let orderData = await ItemsModel.getItemsByOrder(id);
-            newArray.push(orderData);
-            count += 1
-            if (count === orderIds.length || count === 3) {
+        for(let i = 0; i < orderIds.length; i++)
+        {
+            let itemData = await ItemsModel.getItemsByOrder(orderIds[i]);
+            orderItemData.push(itemData);
+            count += 1;
+            if (count === 3) {
                 res.json({
-                    orderHistory: filteredData,
-                    orderedItems: newArray
+                    orderHistory: orderIds,
+                    orderedItems: orderItemData
                 }).status(200);
             }
-        });   
+        }
     } else {
         const allData = await OrdersModel.getAll();
         res.json(allData).status(200);
