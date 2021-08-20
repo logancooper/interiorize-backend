@@ -29,97 +29,108 @@ router.get('/single/:item_id', async (req, res) => {
     res.json(singleItem).status(200);
 });
 
-//GET filtered array of matching items NOT IN USE
-router.post('/shop-search', async (req, res) => {
-    const { design_array, category_array, color_array, priceTier_array } = req.body;
-    const allItems = await ItemsModel.getAll();
-    let filteredItems = [];
-    let filteredItemsByDesign = [];
-
-    //filter by design tags
-    if(design_array.length > 0)
+const cleanArray = (inputArray) =>
+{
+    inputArray = inputArray.split(',');
+    let returnArray = [];
+    if(inputArray.length === 1 && inputArray[0] === '')
     {
-        design_array.forEach(design_tag_id => {
-            allItems.forEach(item =>{
-                //If the tags of the item contain the style tag ID, add that item to the new list
-                item.tag_ids.forEach(tag_id => {
-                    if(design_tag_id === tag_id)
-                    {
-                        filteredItemsByDesign.push(item);
-                    }
-                })
-            })
-        })
+        inputArray = [];
     }
-    if(filteredItemsByDesign.length > 0)
-    {
-        filteredItems = filteredItemsByDesign;
-    }
+    returnArray = inputArray.map(i=>Number(i));
+    return returnArray;
+}
 
-    //filter by category tags
-    let filteredItemsByDesignCategory = [];
-    if(category_array.length > 0)
-    {
-        category_array.forEach(category_id => {
-            filteredItemsByDesign.forEach(item => {
-                if(item.category_id === category_id)
+//GET filtered array of matching items
+router.get('/shop-search', async (req, res) => {
+    let { designArray, categoryArray, colorArray, priceTierArray } = req.query;
+    
+    designArray = cleanArray(designArray);
+    categoryArray = cleanArray(categoryArray);
+    colorArray = cleanArray(colorArray);
+    priceTierArray = cleanArray(priceTierArray);
+
+    const byDesign = (item) => {
+        let cleanFlag = false;
+        item.tag_ids.forEach(tag_id => {
+            designArray.forEach(design_tag => {
+                if(design_tag === tag_id)
                 {
-                    filteredItemsByDesignCategory.push(item);
+                    cleanFlag = true;
                 }
             })
-        });
+        })
+        return cleanFlag;
     }
-    if(filteredItemsByDesignCategory.length > 0)
+
+    const byCategory = (item) => {
+        let cleanFlag = false;
+        categoryArray.forEach(category_tag => {
+            if(category_tag === item.category_id)
+            {
+                cleanFlag = true;
+            }
+        })
+        return cleanFlag;
+    }
+
+    const byColor = (item) => {
+        let cleanFlag = false;
+        colorArray.forEach(color_id => {
+            if(color_id === item.color_id)
+            {
+                cleanFlag = true;
+            }
+        })
+        return cleanFlag;
+    }
+
+    const byPriceTier = (item) => {
+        let cleanFlag = false;
+        priceTierArray.forEach(priceTier => {
+            if(priceTier === 1 && item.price >= 0 && item.price <= 40)
+            {
+                cleanFlag = true;
+            }
+            if(priceTier === 2 && item.price >= 40 && item.price <= 80)
+            {
+                cleanFlag = true;
+            }
+            if(priceTier === 3 && item.price >= 80 && item.price <= 120)
+            {
+                cleanFlag = true;
+            }
+        });
+        return cleanFlag;
+    }
+
+    let allItems = await ItemsModel.getAll();
+
+    //filter by design
+    let filteredItems = allItems;
+    if(designArray.length > 0)
     {
-        filteredItems = filteredItemsByDesignCategory;
+        filteredItems = allItems.filter(byDesign);
+    }
+
+    //filter by category
+    if(categoryArray.length > 0)
+    {
+        filteredItems = filteredItems.filter(byCategory);
+    }
+
+    //filter by color
+    if(colorArray.length > 0)
+    {
+        filteredItems = filteredItems.filter(byColor);
     }
     
-    //filter by colors
-    let filteredItemsByDesignCategoryColor = [];
-    if(color_array.length > 0)
-    {
-        color_array.forEach(color_id => {
-            filteredItemsByDesignCategory.forEach(item => {
-                if(item.color_id === color_id)
-                {
-                    filteredItemsByDesignCategoryColor.push(item);
-                }
-            })
-        })
-    }
-    if(filteredItemsByDesignCategoryColor.length > 0)
-    {
-        filteredItems = filteredItemsByDesignCategoryColor;
-    }
-
     //filter by price tier
-    let filteredItemsByDesignCategoryColorPrice = [];
-    if(priceTier_array.length > 0)
+    if(priceTierArray.length > 0)
     {
-        priceTier_array.forEach(priceTier => {
-            filteredItemsByDesignCategoryColor.forEach(item => {
-                if(priceTier === 1 && item.price >= 0 && item.price <= 40)
-                {
-                    filteredItemsByDesignCategoryColorPrice.push(item);
-                }
-                if(priceTier === 2 && item.price >= 40 && item.price <= 80)
-                {
-                    filteredItemsByDesignCategoryColorPrice.push(item);
-                }
-                if(priceTier === 3 && item.price >= 80 && item.price <= 120)
-                {
-                    filteredItemsByDesignCategoryColorPrice.push(item);
-                }
-            })
-
-        })
-    }
-    if(filteredItemsByDesignCategoryColorPrice.length > 0)
-    {
-        filteredItems = filteredItemsByDesignCategoryColorPrice;
+        filteredItems = filteredItems.filter(byPriceTier);
     }
 
-    //return filteredItems
     res.json(filteredItems).status(200);
 });
 
