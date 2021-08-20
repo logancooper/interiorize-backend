@@ -1,6 +1,9 @@
 const express = require('express');
 const UsersModel = require('../models/Users');
 const router = express.Router();
+const checkJwt = require('../utilities');
+
+router.use(checkJwt);
 
 //GET single user data or all user data
 router.get('/:user_sub?', async (req, res) => {
@@ -61,16 +64,14 @@ router.post('/avoid/add', async (req, res) => {
 //POST delete and reinsert avoid array for a user
 router.post('/avoid/update', async (req, res) => {
     const { user_id, avoid_tags } = req.body;
-    const tagsArray = avoid_tags.split(',');
+    // const tagsArray = avoid_tags.split(',');
     const response1 = await UsersModel.deleteAvoidData(user_id);
-    const response2 = await UsersModel.addAvoidData(user_id, tagsArray);
+    const response2 = await UsersModel.addAvoidData(user_id, avoid_tags);
     res.json({
         deleteResponse: response1,
         addResponse: response2
     }).status(200);
 });
-
-
 
 
 module.exports = router;

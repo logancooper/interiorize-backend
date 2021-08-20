@@ -3,11 +3,14 @@
 const express = require('express');
 const ItemsModel = require('../models/Items');
 const OrdersModel = require('../models/Orders');
+const checkJwt = require('../utilities');
 const router = express.Router();
+
+router.use(checkJwt);
 
 //GET by userID or get all
 router.get('/:user_id?', async (req, res) => {
-    if (!!req.params) {
+    if (!!req.params.user_id) {
         const { user_id } = req.params;
         const filteredData = await OrdersModel.getByUserID(user_id);
         let orderIds = [];
