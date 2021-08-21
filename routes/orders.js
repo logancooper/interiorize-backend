@@ -17,7 +17,12 @@ router.get('/:user_id?', async (req, res) => {
         ordersData.forEach(object => {
             orderIds.push(object.id)
             })
-        
+        if (orderIds.length === 0) {
+            res.json({
+                orderHistory: {},
+                orderedItems: {}
+            })
+        }
         let orderItemData = [];
         let count = 0;
         for(let i = 0; i < orderIds.length -1 ; i++) {
