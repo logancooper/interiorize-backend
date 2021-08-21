@@ -24,8 +24,7 @@ router.get('/:user_id?', async (req, res) => {
             let itemData = await ItemsModel.getItemsByOrder(orderIds[i]);
             orderItemData.push(itemData);
             count += 1;
-            if (count === orderIds.length || count === 3) {
-                console.log('done')
+            if (count === orderIds.length -1 || count === 3) {
                 res.status(200).json({
                     orderHistory: orderIds,
                     orderedItems: orderItemData
