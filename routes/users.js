@@ -55,10 +55,15 @@ router.get('/avoid/string/:user_id', async (req, res) => {
 //POST add initial avoid data for a user
 router.post('/avoid/add', async (req, res) => {
     const { user_id, avoid_tags } = req.body;
-    const tagsArray = avoid_tags.split(',');
-    console.log(tagsArray);
-    const response = await UsersModel.addAvoidData(user_id, tagsArray);
-    res.json(response).status(200);
+    if (avoid_tags.length > 1) {
+        const tagsArray = avoid_tags.split(',');
+        const response = await UsersModel.addAvoidData(user_id, tagsArray);
+        res.json(response).status(200);
+    } else {
+        const tagsArray= [avoid_tags]
+        const response = await UsersModel.addAvoidData(user_id, tagsArray);
+        res.json(response).status(200);
+    }
 });
 
 //POST delete and reinsert avoid array for a user
