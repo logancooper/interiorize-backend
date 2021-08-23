@@ -1,13 +1,14 @@
 <h1 align="center">Interiorize API</h1>
+<p>The Interiorize API is a RESTful API deployed to serve data to <a href="https://interiorize.design">Interiorize</a>. Several public routes are denoted with * below, but the majority of the routes require a JSON Web Token only available to logged-in users.</p>
 <details>
   <summary align="center">Table of Contents</summary>
   <ol>
     <li>
       <a href="#items-endpoints">Items Endpoints</a>
       <ul>
-        <li>GET /items</li>
+        <li>GET /items*</li>
         <li>GET /items/byId/:order_id</li>
-        <li>GET /items/single/:item_id</li>
+        <li>GET /items/single/:item_id*</li>
         <li>GET /items/items-match</li>
         <li>GET /items/shop-search</li>
         <li>POST /items/generate-order</li>
