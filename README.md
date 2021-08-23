@@ -1,6 +1,6 @@
 <h1 align="center">Interiorize API</h1>
 <p>The Interiorize API is a RESTful API deployed to serve data to <a href="https://interiorize.design">Interiorize</a><a href="https://github.com/natelee3/interiorize">(see frontend repo)</a>. Several public routes are denoted with * below, but the majority of the routes require a JSON Web Token only available to logged-in users.</p>
-<p><a href="https://interiorize.design/db_schema.png">View our database schema</a></p>
+<p><a href="https://interiorize.design/images/db_schema.png">View our database schema</a></p>
 <details>
   <summary align="center">Table of Contents</summary>
   <ol>
