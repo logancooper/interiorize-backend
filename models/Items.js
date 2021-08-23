@@ -12,7 +12,6 @@ class ItemsModel {
     };
 
     //Get all items in the database
-    //Need to join with colors, categories, and tags
     static async getAll() {
         try {
             const response = await db.any(`
@@ -23,29 +22,8 @@ class ItemsModel {
                 INNER JOIN colors ON items.color_id = colors.id
                 INNER JOIN items_tags ON items.id = items_tags.item_id
                 INNER JOIN tags ON tags.id = items_tags.tag_id
-                GROUP BY items.id, item_name, description, img_src, price, brand, category_name, category_id, color_name, color_id; `
-            )
-            return response;
-        } catch (error) {
-            console.error('ERROR', error)
-            return error
-        }
-    };
-
-    //Shop Search
-    //NOT CURRENTLY USED
-    static async getBy(design_array, category_array, color_array, priceTier_array) {
-        try {
-            const response = await db.any(`
-                SELECT items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id, array_agg(tag_description) as tags, array_agg(tag_id) as tag_ids
-                FROM items
-                INNER JOIN item_categories ON items.id = item_categories.item_id
-                INNER JOIN categories ON categories.id = item_categories.category_id
-                INNER JOIN colors ON items.color_id = colors.id
-                INNER JOIN items_tags ON items.id = items_tags.item_id
-                INNER JOIN tags ON tags.id = items_tags.tag_id
-                GROUP BY items.id, item_name, description, img_src, price, brand, category_name, color_name, color_id;
-            `)
+                GROUP BY items.id, item_name, description, img_src, price, brand, category_name, category_id, color_name, color_id; 
+            `);
             return response;
         } catch (error) {
             console.error('ERROR', error)

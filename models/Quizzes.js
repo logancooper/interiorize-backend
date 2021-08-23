@@ -23,8 +23,8 @@ class QuizzesModel {
                 INNER JOIN colors as r2 ON r2.id = color_two_id
                 INNER JOIN colors as r3 ON r3.id = color_three_id
                 WHERE user_id = ${user_id}
-                GROUP BY user_id, budget, categories.category_name, quizzes.category_id, r1.color_name, r2.color_name, r3.color_name, tag_description, style_id; `
-            )
+                GROUP BY user_id, budget, categories.category_name, quizzes.category_id, r1.color_name, r2.color_name, r3.color_name, tag_description, style_id; 
+            `);
             return response;
         } catch (error) {
             console.error('ERROR', error)
@@ -40,8 +40,8 @@ class QuizzesModel {
                 INSERT INTO quizzes
                     (user_id, budget, color_one_id, color_two_id, color_three_id, category_id, style_id)
                 VALUES
-                    (${user_id}, ${budget}, ${color_one_id}, ${color_two_id}, ${color_three_id}, ${category_id}, ${style_id}); `
-            )
+                    (${user_id}, ${budget}, ${color_one_id}, ${color_two_id}, ${color_three_id}, ${category_id}, ${style_id}); 
+            `);
             return response;
         } catch (error) {
             console.error('ERROR', error)
@@ -60,8 +60,8 @@ class QuizzesModel {
                     color_three_id = ${color_three_id},
                     category_id = ${category_id},
                     style_id = ${style_id}
-                WHERE user_id = ${user_id}; `
-            )
+                WHERE user_id = ${user_id}; 
+            `);
             return response;
         } catch (error) {
             console.error('ERROR', error)

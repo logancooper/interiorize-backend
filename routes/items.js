@@ -278,8 +278,7 @@ router.post('/generate-order', checkJwt, async (req, res) => {
     {
         console.log("No items found matching the quiz criteria");
         res.json({success: false}).status(500);
-    }
-    
+    } 
 });
 
 module.exports = router;
