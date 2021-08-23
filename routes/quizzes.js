@@ -9,7 +9,11 @@ router.use(checkJwt);
 router.get('/:user_id', async (req, res) => {
     const { user_id } = req.params;
     const quizData = await QuizzesModel.getAllUserQuizData(user_id);
-    res.json(quizData).status(200);
+    if (!quizData.user_id) {
+        res.json({}).status(404)
+    } else {
+        res.json(quizData).status(200);
+    }
 });
 
 //POST - add new quiz data
