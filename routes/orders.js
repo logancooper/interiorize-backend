@@ -46,13 +46,24 @@ router.get('/:user_id?', async (req, res) => {
 // POST create new order 
 router.post('/add', async (req, res) => {
     const { user_id, items } = req.body;
-    const itemArray = items.split(',');
-    //Call createOrder, returning an order_id
-    const response1 = await OrdersModel.createOrder(user_id);
-    const order_id = response1.id;
-    const response2 = await OrdersModel.addItemsToOrder(order_id, itemArray);
-    const response3 = await ItemsModel.addItemsToInventory(user_id, itemArray);
-    res.send(response1).status(200);
+    //Check number of items in order
+    if (items.length > 1) {
+        const itemArray = items.split(',');
+        //Call createOrder, returning an order_id
+        const response1 = await OrdersModel.createOrder(user_id);
+        const order_id = response1.id;
+        const response2 = await OrdersModel.addItemsToOrder(order_id, itemArray);
+        const response3 = await ItemsModel.addItemsToInventory(user_id, itemArray);
+        res.send(response1).status(200);
+    } else {
+        //Call createOrder, returning an order_id
+        const response1 = await OrdersModel.createOrder(user_id);
+        const order_id = response1.id;
+        const response2 = await OrdersModel.addItemsToOrder(order_id, items);
+        const response3 = await ItemsModel.addItemsToInventory(user_id, items);
+        res.send(response1).status(200);
+    }
+    
 });
 
 module.exports = router;
