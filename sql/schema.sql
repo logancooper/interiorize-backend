@@ -53,13 +53,6 @@ CREATE TABLE colors(
     color_name text
 );
 
-CREATE TABLE reviews(
-    id serial PRIMARY KEY,
-    user_id integer REFERENCES users(id),
-    item_id integer REFERENCES items(id),
-    rating integer
-);
-
 CREATE TABLE quizzes(
     id serial PRIMARY KEY,
     user_id integer REFERENCES UNIQUE users(id),
@@ -69,11 +62,6 @@ CREATE TABLE quizzes(
     color_three_id integer REFERENCES colors(id),
     category_id integer REFERENCES categories(id),
     style_id integer
-);
-
-CREATE TABLE users_tags(
-    user_id integer REFERENCES users(id),
-    tag_id integer REFERENCES tags(id)
 );
 
 CREATE TABLE users_avoid_tags(
