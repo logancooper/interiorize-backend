@@ -25,15 +25,16 @@ router.get('/:user_id?', async (req, res) => {
         }
         let orderItemData = [];
         let count = 0;
-        for(let i = 0; i < orderIds.length -1 ; i++) {
+        for(let i = 0; i < orderIds.length; i++) {
             let itemData = await ItemsModel.getItemsByOrder(orderIds[i]);
             orderItemData.push(itemData);
             count += 1;
-            if (count === orderIds.length -1 || count === 3) {
+            if (count === orderIds.length || count === 3) {
                 res.status(200).json({
                     orderHistory: orderIds,
                     orderedItems: orderItemData
                 });
+                break;
             }
         }
     } else {
