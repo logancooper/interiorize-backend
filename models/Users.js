@@ -22,7 +22,7 @@ class UsersModel {
         }
     };
 
-    //
+    //Get a single user by their auth0 user_sub
     static async getUser(user_sub) {
         try {
             const response = await db.any(`
@@ -36,6 +36,7 @@ class UsersModel {
         }
     };
 
+    //Add a new user to the database
     static async addUser(reqBody) {
         //parse reqBody
         const { user_sub, nickname, email } = reqBody;
@@ -54,16 +55,13 @@ class UsersModel {
         }
     };
 
-    // static async updateUser() {
-    //     Which things do we want to update?
-    // };
-
+   //Delete a user from the database;
     static async deleteUser(user_sub) {
         try {
             const response = await db.one(`
             DELETE FROM users
-            WHERE user_sub = '${user_sub}';`
-            );
+            WHERE user_sub = '${user_sub}';
+            `);
             return response;
         } catch (error) {
             console.error('ERROR', error)
@@ -71,6 +69,7 @@ class UsersModel {
         }
     };
 
+    //Return user's avoid array as integers
     static async getUserAvoidData(user_id) {
         try {
             const response = await db.any(`
@@ -84,6 +83,7 @@ class UsersModel {
         }
     };
 
+    //Return user's avoid array as strings
     static async getUserAvoidStrings(user_id) {
         try {
             const response = await db.any(`
@@ -99,18 +99,20 @@ class UsersModel {
         }
     };
 
+    //Delete all avoid data for a user
     static async deleteAvoidData(user_id) {
         try {
             const response = await db.any(`
                 DELETE FROM users_avoid_tags
                 WHERE user_id = ${user_id};
-            `)
+            `);
         } catch (error) {
             console.error('ERROR', error)
             return error
         }
     };
 
+    //Add new avoid data for a user
     static async addAvoidData(user_id, avoid_tags) {
         console.log(typeof avoid_tags);
         let tagInserts = '';
@@ -127,7 +129,7 @@ class UsersModel {
                     (user_id, tag_id)
                 VALUES
                     ${tagInserts};
-            `
+            `;
             const response = await db.any(query)
         } catch (error) {
             console.error('ERROR', error)

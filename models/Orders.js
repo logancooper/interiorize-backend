@@ -15,8 +15,8 @@ class OrdersModel {
                 INNER JOIN users ON orders.user_id = users.id
                 INNER JOIN orders_items ON orders.id = orders_items.order_id
                 INNER JOIN items ON orders_items.item_id = items.id
-                GROUP BY orders.id, users.id, created_date; `
-            )
+                GROUP BY orders.id, users.id, created_date; 
+            `);
             return response;
         } catch (error) {
             console.error('ERROR', error)
@@ -30,8 +30,8 @@ class OrdersModel {
             const response = await db.any(`
                 SELECT id, created_date FROM orders
                 WHERE user_id = ${user_id}
-                ORDER BY created_date DESC; `
-            )
+                ORDER BY created_date DESC; 
+            `);
             return response;
         } catch (error) {
             console.error('ERROR', error)
@@ -48,7 +48,7 @@ class OrdersModel {
                 VALUES
                 (${user_id})
                 RETURNING id;
-            `
+            `;
             const response = await db.one(query);
             return response;
         } catch (error) {
