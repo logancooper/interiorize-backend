@@ -40,7 +40,6 @@ router.get('/avoid/:user_id', async (req, res) => {
     if (!!req.params.user_id) {
         const { user_id } = req.params;
         const avoidData = await UsersModel.getUserAvoidData(user_id);
-        console.log(avoidData[0].avoid_tags)
         res.json(avoidData[0].avoid_tags).status(200);
     }
 });
@@ -55,27 +54,26 @@ router.get('/avoid/string/:user_id', async (req, res) => {
 //POST add initial avoid data for a user
 router.post('/avoid/add', async (req, res) => {
     const { user_id, avoid_tags } = req.body;
-    if (avoid_tags.length > 1) {
-        const tagsArray = avoid_tags.split(',');
-        const response = await UsersModel.addAvoidData(user_id, tagsArray);
-        res.json(response).status(200);
-    } else {
-        const tagsArray= [avoid_tags]
-        const response = await UsersModel.addAvoidData(user_id, tagsArray);
-        res.json(response).status(200);
-    }
+    const response = await UsersModel.addAvoidData(user_id, avoid_tags);
+    res.json(response).status(200);
 });
 
 //POST delete and reinsert avoid array for a user
 router.post('/avoid/update', async (req, res) => {
     const { user_id, avoid_tags } = req.body;
-    // const tagsArray = avoid_tags.split(',');
     const response1 = await UsersModel.deleteAvoidData(user_id);
-    const response2 = await UsersModel.addAvoidData(user_id, avoid_tags);
-    res.json({
-        deleteResponse: response1,
-        addResponse: response2
-    }).status(200);
+    if (avoid_tags[0] === '' || avoid_tags.length === 0) {
+        res.json({
+            deleteResponse: response1,
+            addResponse: {}
+        }).status(200);
+    } else {
+        const response2 = await UsersModel.addAvoidData(user_id, avoid_tags);
+        res.json({
+            deleteResponse: response1,
+            addResponse: response2
+        }).status(200);
+    }
 });
 
 
